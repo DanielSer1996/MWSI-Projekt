@@ -14,6 +14,7 @@
         <!-- @see: http://community.jboss.org/wiki/HibernateCoreMigrationGuide36 -->
         <property name="hibernate.jdbc.use_streams_for_binary">false</property>
 
+        <mapping class="i5b5.mwsi.entities.Driver"/>
 
     </session-factory>
 </hibernate-configuration>
