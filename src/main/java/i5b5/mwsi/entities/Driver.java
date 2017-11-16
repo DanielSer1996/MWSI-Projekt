@@ -27,8 +27,6 @@ public class Driver implements Serializable {
     private String surname;
     @Column(name = "DRIVER_BIRTH_DATE")
     private Date birthDate;
-
-
     //trzeba będzie dodać relacje po stworzeniu tabel driving_license i address (nie będzie long tylko Address i DrivingLicense)
     @Column(name = "LICENSE_ID")
     private long licenseId;
