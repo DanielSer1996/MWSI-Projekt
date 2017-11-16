@@ -1,5 +1,7 @@
 package i5b5.mwsi.entities;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.Id;
@@ -10,6 +12,7 @@ import java.sql.Date;
 /**
  * Created by daniel on 05.11.17.
  */
+@JsonFormat
 @Entity
 @Table(name = "DRIVER")
 public class Driver implements Serializable {
@@ -33,7 +36,7 @@ public class Driver implements Serializable {
     @Column(name = "ADDRESS_ID")
     private long addressId;
 
-    public Driver(long driverId, long licenseId, String pesel, String name, String surname, Date birthDate) {
+    public Driver(long driverId, String pesel, String name, String surname, Date birthDate) {
         this.driverId = driverId;
         this.licenseId = licenseId;
         this.pesel = pesel;
