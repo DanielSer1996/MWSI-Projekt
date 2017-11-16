@@ -21,8 +21,6 @@ public class Car implements Serializable {
     @Column(name = "CAR_REGISTRATION_NUMBER")
     private String carRegistrationNumber;
 
-    @Column(name = "ADDRESS_ID")
-    private long addressId;
 
     public Car(String carVin, long insuranceId, String carMake, String carModel, String carRegistrationNumber) {
         this.vin = carVin;
@@ -68,11 +66,4 @@ public class Car implements Serializable {
         this.carRegistrationNumber = carRegistrationNumber;
     }
 
-    public long getAddressId() {
-        return addressId;
-    }
-
-    public void setAddressId(long addressId) {
-        this.addressId = addressId;
-    }
 }

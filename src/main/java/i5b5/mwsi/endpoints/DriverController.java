@@ -1,5 +1,6 @@
 package i5b5.mwsi.endpoints;
 
+import i5b5.mwsi.entities.Car;
 import i5b5.mwsi.entities.Driver;
 import i5b5.mwsi.utility.HibernateUtil;
 import org.hibernate.Session;
@@ -10,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.Date;
+import java.util.List;
 
 
 /**
@@ -20,12 +22,16 @@ import java.sql.Date;
 public class DriverController {
 
     @RequestMapping(value = "/driver",method = RequestMethod.GET)
-    public Driver getDriverById(){
+    public List<Car> getDriverById(){
         HibernateUtil hibernateUtil = new HibernateUtil();
         SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
-        Driver driver = session.get(Driver.class,50L);
 
-        return driver;
+        List<Car> list = session.createCriteria(Car.class).list();
+
+        session.close();
+        sessionFactory.close();
+
+        return list;
     }
 }
