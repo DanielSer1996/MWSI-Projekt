@@ -1,6 +1,9 @@
 package i5b5.mwsi.endpoints;
 
 import i5b5.mwsi.entities.Driver;
+import i5b5.mwsi.utility.HibernateUtil;
+import org.hibernate.Session;
+import org.hibernate.SessionFactory;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -18,10 +21,11 @@ public class DriverController {
 
     @RequestMapping(value = "/driver",method = RequestMethod.GET)
     public Driver getDriverById(){
-//        HibernateUtil hibernateUtil = new HibernateUtil();
-//        SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
-//        Session session = sessionFactory.openSession();
+        HibernateUtil hibernateUtil = new HibernateUtil();
+        SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
+        Session session = sessionFactory.openSession();
+        Driver driver = session.get(Driver.class,50L);
 
-        return new Driver(1L,"12345678901","Daniel","Serszeń",Date.valueOf("1996-07-31"));
+        return driver;
     }
 }

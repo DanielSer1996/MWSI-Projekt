@@ -12,12 +12,6 @@ public class Car implements Serializable {
     @Id
     @Column(name = "CAR_VIN")
     private String vin;
-    @Column(name = "CAR_MAKE")
-    private String manufacturer;
-    @Column(name = "CAR_MODEL")
-    private String model;
-    @Column (name = "CAR_REGISTRATION_NUMBER")
-    private String registrationNumber;
     @Column(name = "INSURANCE_ID")
     private long insuranceId;
     @Column(name = "CAR_MAKE")
