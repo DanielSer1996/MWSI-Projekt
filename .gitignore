@@ -21,4 +21,3 @@ target/
 hs_err_pid*
 .idea/inspectionProfiles/
 src/main/resources/hibernate.properties
-src/test/

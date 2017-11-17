@@ -22,11 +22,10 @@ public class HibernateUtil {
         Properties dbConnectionProperties = new Properties();
         try {
             dbConnectionProperties.load(ClassLoader.getSystemClassLoader().getResourceAsStream("hibernate.properties"));
+            return new Configuration().mergeProperties(dbConnectionProperties).configure("hibernate.cfg.xml").buildSessionFactory();
         } catch(Exception e) {
             return null;
         }
-
-        return new Configuration().mergeProperties(dbConnectionProperties).configure("hibernate.cfg.xml").buildSessionFactory();
     }
 
     public SessionFactory getSessionFactory() {
