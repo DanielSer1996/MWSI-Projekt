@@ -4,6 +4,9 @@ import org.hibernate.SessionFactory;
 import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
+import org.hibernate.cfg.Configuration;
+
+import java.util.Properties;
 
 /**
  * Created by daniel on 05.11.17.
@@ -16,17 +19,14 @@ public class HibernateUtil {
     }
 
     private SessionFactory buildSessionFactory() {
-        SessionFactory sessionFactory = null;
-        final StandardServiceRegistry registry = new StandardServiceRegistryBuilder()
-                .configure("hibernate.cfg.xml")
-                .build();
+        Properties dbConnectionProperties = new Properties();
         try {
-            sessionFactory = new MetadataSources(registry).buildMetadata().buildSessionFactory();
-        }catch (Exception e){
-            StandardServiceRegistryBuilder.destroy(registry);
+            dbConnectionProperties.load(ClassLoader.getSystemClassLoader().getResourceAsStream("hibernate.properties"));
+        } catch(Exception e) {
+            return null;
         }
 
-        return sessionFactory;
+        return new Configuration().mergeProperties(dbConnectionProperties).configure("hibernate.cfg.xml").buildSessionFactory();
     }
 
     public SessionFactory getSessionFactory() {

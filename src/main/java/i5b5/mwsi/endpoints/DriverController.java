@@ -22,16 +22,16 @@ import java.util.List;
 public class DriverController {
 
     @RequestMapping(value = "/driver",method = RequestMethod.GET)
-    public List<Car> getDriverById(){
+    public Driver getDriverById(){
         HibernateUtil hibernateUtil = new HibernateUtil();
         SessionFactory sessionFactory = hibernateUtil.getSessionFactory();
         Session session = sessionFactory.openSession();
 
-        List<Car> list = session.createCriteria(Car.class).list();
+        Driver driver = session.get(Driver.class,111L);
 
         session.close();
         sessionFactory.close();
 
-        return list;
+        return driver;
     }
 }
