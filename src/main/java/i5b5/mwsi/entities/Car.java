@@ -1,10 +1,9 @@
 package i5b5.mwsi.entities;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "CAR")
@@ -20,7 +19,8 @@ public class Car implements Serializable {
     private String carModel;
     @Column(name = "CAR_REGISTRATION_NUMBER")
     private String carRegistrationNumber;
-
+    @OneToMany(mappedBy = "reviewedCar",fetch = FetchType.EAGER)
+    private List<CarReview> reviews = new ArrayList<>();
 
     public Car(String carVin, long insuranceId, String carMake, String carModel, String carRegistrationNumber) {
         this.vin = carVin;
@@ -66,4 +66,19 @@ public class Car implements Serializable {
         this.carRegistrationNumber = carRegistrationNumber;
     }
 
+    public String getVin() {
+        return vin;
+    }
+
+    public void setVin(String vin) {
+        this.vin = vin;
+    }
+
+    public List<CarReview> getReviews() {
+        return reviews;
+    }
+
+    public void setReviews(List<CarReview> reviews) {
+        this.reviews = reviews;
+    }
 }

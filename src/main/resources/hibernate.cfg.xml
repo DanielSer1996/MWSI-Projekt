@@ -9,5 +9,6 @@
         <mapping class="i5b5.mwsi.entities.Driver"/>
         <mapping class="i5b5.mwsi.entities.Car"/>
         <mapping class="i5b5.mwsi.entities.CriminalRecords"/>
+        <mapping class="i5b5.mwsi.entities.CarReview"/>
     </session-factory>
 </hibernate-configuration>
