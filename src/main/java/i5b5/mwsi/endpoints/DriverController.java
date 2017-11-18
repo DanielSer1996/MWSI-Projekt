@@ -1,13 +1,10 @@
 package i5b5.mwsi.endpoints;
 
-import com.google.gson.Gson;
-import com.google.gson.GsonBuilder;
 import i5b5.mwsi.entities.Driver;
 import i5b5.mwsi.services.DBService;
 import i5b5.mwsi.utility.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.boot.json.GsonJsonParser;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
