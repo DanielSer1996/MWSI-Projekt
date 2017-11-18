@@ -1,5 +1,9 @@
 package i5b5.mwsi.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.LazyCollection;
+import org.hibernate.annotations.LazyCollectionOption;
+
 import javax.persistence.*;
 import java.io.Serializable;
 import java.util.ArrayList;
@@ -21,6 +25,15 @@ public class Car implements Serializable {
     private String carRegistrationNumber;
     @OneToMany(mappedBy = "reviewedCar",fetch = FetchType.EAGER)
     private List<CarReview> reviews = new ArrayList<>();
+
+    @ManyToMany
+    @LazyCollection(LazyCollectionOption.FALSE)
+    @JoinTable(
+            name = "DRIVER_CAR_REL",
+            joinColumns = {@JoinColumn(name = "CAR_VIN")},
+            inverseJoinColumns = {@JoinColumn(name = "DRIVER_ID")}
+    )
+    private List<Driver> owners = new ArrayList<>();
 
     public Car(String carVin, long insuranceId, String carMake, String carModel, String carRegistrationNumber) {
         this.vin = carVin;
@@ -80,5 +93,13 @@ public class Car implements Serializable {
 
     public void setReviews(List<CarReview> reviews) {
         this.reviews = reviews;
+    }
+
+    public List<Driver> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(List<Driver> owners) {
+        this.owners = owners;
     }
 }

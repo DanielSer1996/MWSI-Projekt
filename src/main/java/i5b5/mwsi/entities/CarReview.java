@@ -1,6 +1,8 @@
 package i5b5.mwsi.entities;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyDescription;
 
 import javax.persistence.*;
 import java.io.Serializable;

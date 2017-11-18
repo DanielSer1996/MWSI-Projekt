@@ -24,6 +24,7 @@ public class HibernateUtil {
             dbConnectionProperties.load(ClassLoader.getSystemClassLoader().getResourceAsStream("hibernate.properties"));
             return new Configuration().mergeProperties(dbConnectionProperties).configure("hibernate.cfg.xml").buildSessionFactory();
         } catch(Exception e) {
+            e.printStackTrace();
             return null;
         }
     }
