@@ -1,7 +1,7 @@
 target/
 .idea/workspace.xml
 
-# Log file
+# Log filegit
 *.log
 
 # BlueJ files

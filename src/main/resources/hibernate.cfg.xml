@@ -12,5 +12,7 @@
         <mapping class="i5b5.mwsi.entities.CarReview"/>
         <mapping class="i5b5.mwsi.entities.DrivingLicense"/>
         <mapping class="i5b5.mwsi.entities.LicenseCategory"/>
+        <mapping class="i5b5.mwsi.entities.CriminalRecordsDictionary"/>
+        <mapping class="i5b5.mwsi.entities.Insurance"/>
     </session-factory>
 </hibernate-configuration>

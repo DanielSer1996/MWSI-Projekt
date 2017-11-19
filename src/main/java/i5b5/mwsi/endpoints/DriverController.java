@@ -1,15 +1,15 @@
 package i5b5.mwsi.endpoints;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import i5b5.mwsi.entities.CriminalRecords;
 import i5b5.mwsi.entities.Driver;
 import i5b5.mwsi.services.DBService;
 import i5b5.mwsi.utility.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.springframework.stereotype.Controller;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.*;
 
 
 /**
@@ -28,8 +28,11 @@ public class DriverController {
 
         Driver driver = session.get(Driver.class,id);
 
+        CriminalRecords criminalRecords = session.get(CriminalRecords.class,3L);
         session.close();
         sessionFactory.close();
+
+        System.out.println(criminalRecords.getRecordId()+" "+criminalRecords.getDriver().getName()+ " " + criminalRecords.getDriver().getSurname()+" "+criminalRecords.getType().getCrDictionaryType());
 
         return driver.getSurname();
     }

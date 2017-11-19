@@ -1,6 +1,5 @@
 package i5b5.mwsi.entities;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.hibernate.annotations.LazyCollection;
 import org.hibernate.annotations.LazyCollectionOption;
 
@@ -15,8 +14,6 @@ public class Car implements Serializable {
     @Id
     @Column(name = "CAR_VIN")
     private String vin;
-    @Column(name = "INSURANCE_ID")
-    private long insuranceId;
     @Column(name = "CAR_MAKE")
     private String carMake;
     @Column(name = "CAR_MODEL")
@@ -35,9 +32,12 @@ public class Car implements Serializable {
     )
     private List<Driver> owners = new ArrayList<>();
 
+    @OneToOne
+    @JoinColumn(name = "INSURANCE_ID")
+    private Insurance insurance;
+
     public Car(String carVin, long insuranceId, String carMake, String carModel, String carRegistrationNumber) {
         this.vin = carVin;
-        this.insuranceId = insuranceId;
         this.carMake = carMake;
         this.carModel = carModel;
         this.carRegistrationNumber = carRegistrationNumber;
@@ -46,14 +46,6 @@ public class Car implements Serializable {
     public Car() {
     }
 
-
-    public long getInsuranceId() {
-        return insuranceId;
-    }
-
-    public void setInsuranceId(long insuranceId) {
-        this.insuranceId = insuranceId;
-    }
 
     public String getCarMake() {
         return carMake;
@@ -101,5 +93,13 @@ public class Car implements Serializable {
 
     public void setOwners(List<Driver> owners) {
         this.owners = owners;
+    }
+
+    public Insurance getInsurance() {
+        return insurance;
+    }
+
+    public void setInsurance(Insurance insurance) {
+        this.insurance = insurance;
     }
 }
