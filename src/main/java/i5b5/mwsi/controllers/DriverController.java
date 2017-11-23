@@ -1,4 +1,4 @@
-package i5b5.mwsi.endpoints;
+package i5b5.mwsi.controllers;
 
 import i5b5.mwsi.services.DriverService;
 import i5b5.mwsi.services.dto.DriverDTO;
@@ -16,8 +16,6 @@ public class DriverController {
 
     @RequestMapping(value = "/{id}",method = RequestMethod.GET)
     public DriverDTO getDriverById(@PathVariable long id){
-        DriverDTO driverDTO = driverService.getDriverById(id);
-        System.out.println(driverDTO.getAddress().getAddressZipcode());
-        return driverDTO;
+        return driverService.getDriverById(id);
     }
 }

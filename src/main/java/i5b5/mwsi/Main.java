@@ -8,7 +8,7 @@ import org.springframework.context.annotation.ComponentScan;
  * Created by daniel on 05.11.17.
  */
 @SpringBootApplication
-@ComponentScan("i5b5.mwsi.endpoints")
+@ComponentScan("i5b5.mwsi.controllers")
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class);
