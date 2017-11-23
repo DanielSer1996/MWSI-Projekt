@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="war" name="MWSI-Projekt:war">
-    <output-path>$PROJECT_DIR$/target</output-path>
-    <root id="archive" name="mwsi_project-1.0-SNAPSHOT.war">
-      <element id="artifact" artifact-name="MWSI-Projekt:war exploded" />
-    </root>
-  </artifact>
-</component>
