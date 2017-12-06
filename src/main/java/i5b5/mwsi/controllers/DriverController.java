@@ -13,7 +13,8 @@ import java.util.List;
  * Created by daniel on 15.11.17.
  */
 @RestController
-@CrossOrigin(origins = "localhost:9000", maxAge = 3600)
+@CrossOrigin(origins = "localhost:10010", maxAge = 3600)
+@RequestMapping(headers = {"Access-Control-Allow-Origin*"})
 public class DriverController {
     private DriverService driverService = new DriverServiceImpl();
 
