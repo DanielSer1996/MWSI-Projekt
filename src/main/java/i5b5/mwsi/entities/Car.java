@@ -21,7 +21,7 @@ public class Car implements Serializable {
     @Column(name = "CAR_REGISTRATION_NUMBER")
     private String carRegistrationNumber;
     @OneToMany(mappedBy = "reviewedCar",fetch = FetchType.EAGER)
-    private List<CarReview> reviews = new ArrayList<>();
+    private List<CarReview> reviews = new ArrayList<CarReview>();
 
     @ManyToMany
     @LazyCollection(LazyCollectionOption.FALSE)

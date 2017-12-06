@@ -20,7 +20,7 @@ public class LicenseCategory implements Serializable{
 
     @ManyToMany(mappedBy = "categories",fetch = FetchType.EAGER)
     @JsonIgnore
-    private List<DrivingLicense> licenses = new ArrayList<>();
+    private List<DrivingLicense> licenses = new ArrayList<DrivingLicense>();
 
     public LicenseCategory() {
     }
@@ -53,5 +53,13 @@ public class LicenseCategory implements Serializable{
 
     public void setDescription(String description) {
         this.description = description;
+    }
+
+    public List<DrivingLicense> getLicenses() {
+        return licenses;
+    }
+
+    public void setLicenses(List<DrivingLicense> licenses) {
+        this.licenses = licenses;
     }
 }

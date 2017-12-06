@@ -15,8 +15,8 @@ public class DriverDTO {
     private String surname;
     private Date dateOfBirth;
     private Long drivingLicenseNumber;
-    private Address address;
-    private Set<String> ownedCarsVins = new HashSet<>();
+    private AddressDTO address;
+    private Set<String> ownedCarsVins = new HashSet<String>();
 
     public DriverDTO(Driver driver) {
         this.driverId = driver.getDriverId();
@@ -25,7 +25,7 @@ public class DriverDTO {
         this.surname = driver.getSurname();
         this.dateOfBirth = driver.getBirthDate();
         this.drivingLicenseNumber = driver.getDrivingLicense().getLicenseId();
-        this.address = driver.getAddress();
+        this.address = new AddressDTO(driver.getAddress());
         for(Car c : driver.getCars()){
             this.ownedCarsVins.add(c.getVin());
         }
@@ -79,11 +79,11 @@ public class DriverDTO {
         this.drivingLicenseNumber = drivingLicenseNumber;
     }
 
-    public Address getAddress() {
+    public AddressDTO getAddressDTO() {
         return address;
     }
 
-    public void setAddress(Address address) {
+    public void setAddressDTO(AddressDTO address) {
         this.address = address;
     }
 
