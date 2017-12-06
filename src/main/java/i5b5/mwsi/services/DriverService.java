@@ -1,11 +1,12 @@
 package i5b5.mwsi.services;
 
-import i5b5.mwsi.services.dto.DriverDTO;
+import i5b5.mwsi.services.dto.BasicDriverInfo;
+import i5b5.mwsi.services.dto.DriverDetails;
 
 import java.util.List;
 
 public interface DriverService {
-    List<DriverDTO> getDrivers();
-    DriverDTO getDriverById(long id);
+    List<BasicDriverInfo> getDrivers();
+    DriverDetails getDriverById(long id);
 
 }

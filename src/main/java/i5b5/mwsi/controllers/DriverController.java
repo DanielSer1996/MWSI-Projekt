@@ -1,7 +1,8 @@
 package i5b5.mwsi.controllers;
 
 import i5b5.mwsi.services.DriverService;
-import i5b5.mwsi.services.dto.DriverDTO;
+import i5b5.mwsi.services.dto.BasicDriverInfo;
+import i5b5.mwsi.services.dto.DriverDetails;
 import i5b5.mwsi.services.impl.DriverServiceImpl;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -21,17 +22,20 @@ public class DriverController {
     @RequestMapping(value = "/driver/{id}",
                     method = RequestMethod.GET
     )
-    public DriverDTO getDriverById(@PathVariable("id") long id){
+    public DriverDetails getDriverById(@PathVariable("id") long id){
         return driverService.getDriverById(id);
     }
 
     @RequestMapping(value = "/drivers",
                     method = RequestMethod.GET
     )
-    public List<DriverDTO> getDrivers(){
-        List<DriverDTO> drivers;
+    public List<BasicDriverInfo> getDrivers(){
+        List<BasicDriverInfo> drivers;
 
         drivers = driverService.getDrivers();
+
+        for (BasicDriverInfo driverInfo : drivers)
+            System.out.println(driverInfo.getDriverId());
 
         return drivers;
     }

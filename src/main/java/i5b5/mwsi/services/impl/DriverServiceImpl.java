@@ -2,7 +2,8 @@ package i5b5.mwsi.services.impl;
 
 import i5b5.mwsi.entities.Driver;
 import i5b5.mwsi.services.DriverService;
-import i5b5.mwsi.services.dto.DriverDTO;
+import i5b5.mwsi.services.dto.BasicDriverInfo;
+import i5b5.mwsi.services.dto.DriverDetails;
 import i5b5.mwsi.utility.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
@@ -12,13 +13,12 @@ import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Set;
 
 public class DriverServiceImpl implements DriverService{
     private final SessionFactory sessionFactory = new HibernateUtil().getSessionFactory();
 
     @Override
-    public List<DriverDTO> getDrivers() {
+    public List<BasicDriverInfo> getDrivers() {
         List<Driver> drivers;
         Session session = sessionFactory.openSession();
         CriteriaBuilder builder = session.getCriteriaBuilder();
@@ -29,26 +29,26 @@ public class DriverServiceImpl implements DriverService{
 
         drivers = session.createQuery(criteriaQuery).getResultList();
 
-        return createDriverDTOListFromDriverList(drivers);
+        return createBasicDriverInfoListFromDriverList(drivers);
     }
 
     @Override
-    public DriverDTO getDriverById(long id) {
+    public DriverDetails getDriverById(long id) {
         Session session = sessionFactory.openSession();
 
         Driver driver = session.get(Driver.class,id);
 
         session.close();
 
-        return new DriverDTO(driver);
+        return new DriverDetails(driver);
     }
 
-    private List<DriverDTO> createDriverDTOListFromDriverList(List<Driver> drivers){
-        List<DriverDTO> driverDTOs = new ArrayList<>();
+    private List<BasicDriverInfo> createBasicDriverInfoListFromDriverList(List<Driver> drivers){
+        List<BasicDriverInfo> basicDriverInfoList = new ArrayList<>();
         for(Driver driver : drivers){
-            driverDTOs.add(new DriverDTO(driver));
+            basicDriverInfoList.add(new BasicDriverInfo(driver));
         }
 
-        return driverDTOs;
+        return basicDriverInfoList;
     }
 }

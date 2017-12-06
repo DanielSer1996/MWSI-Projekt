@@ -8,7 +8,7 @@ import java.sql.Date;
 import java.util.HashSet;
 import java.util.Set;
 
-public class DriverDTO {
+public class DriverDetails {
     private Long driverId;
     private String pesel;
     private String name;
@@ -18,7 +18,7 @@ public class DriverDTO {
     private Address address;
     private Set<String> ownedCarsVins = new HashSet<>();
 
-    public DriverDTO(Driver driver) {
+    public DriverDetails(Driver driver) {
         this.driverId = driver.getDriverId();
         this.pesel = driver.getPesel();
         this.name = driver.getName();
