@@ -13,6 +13,7 @@ import java.util.List;
  * Created by daniel on 15.11.17.
  */
 @RestController
+@CrossOrigin(origins = "localhost:9000", maxAge = 3600)
 public class DriverController {
     private DriverService driverService = new DriverServiceImpl();
 
@@ -25,7 +26,6 @@ public class DriverController {
 
     @RequestMapping(value = "/drivers",
                     method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:9000")
     public List<BasicDriverInfo> getDrivers(){
         List<BasicDriverInfo> drivers;
 
