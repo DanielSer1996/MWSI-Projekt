@@ -25,7 +25,7 @@ public class DriverController {
 
     @RequestMapping(value = "/drivers",
                     method = RequestMethod.GET)
-    @CrossOrigin(origins = "http://localhost:8080")
+    @CrossOrigin(origins = "http://localhost:9000")
     public List<BasicDriverInfo> getDrivers(){
         List<BasicDriverInfo> drivers;
 
