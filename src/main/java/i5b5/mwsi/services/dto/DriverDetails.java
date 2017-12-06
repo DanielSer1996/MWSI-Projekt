@@ -1,6 +1,5 @@
 package i5b5.mwsi.services.dto;
 
-import i5b5.mwsi.entities.Address;
 import i5b5.mwsi.entities.Car;
 import i5b5.mwsi.entities.Driver;
 
@@ -15,7 +14,7 @@ public class DriverDetails {
     private String surname;
     private Date dateOfBirth;
     private Long drivingLicenseNumber;
-    private AddressDTO address;
+    private AddressData address;
     private Set<String> ownedCarsVins = new HashSet<String>();
 
     public DriverDetails(Driver driver) {
@@ -25,7 +24,7 @@ public class DriverDetails {
         this.surname = driver.getSurname();
         this.dateOfBirth = driver.getBirthDate();
         this.drivingLicenseNumber = driver.getDrivingLicense().getLicenseId();
-        this.address = new AddressDTO(driver.getAddress());
+        this.address = new AddressData(driver.getAddress());
         for(Car c : driver.getCars()){
             this.ownedCarsVins.add(c.getVin());
         }
@@ -79,11 +78,11 @@ public class DriverDetails {
         this.drivingLicenseNumber = drivingLicenseNumber;
     }
 
-    public AddressDTO getAddressDTO() {
+    public AddressData getAddressDTO() {
         return address;
     }
 
-    public void setAddressDTO(AddressDTO address) {
+    public void setAddressDTO(AddressData address) {
         this.address = address;
     }
 

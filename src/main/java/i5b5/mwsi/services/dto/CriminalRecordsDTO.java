@@ -7,13 +7,13 @@ import i5b5.mwsi.entities.Driver;
 public class CriminalRecordsDTO
 {
     private long recordId;
-    private DriverDTO driver;
+    private DriverDetails driver;
     private CriminalRecordsDictionaryDTO type;
 
     public CriminalRecordsDTO(CriminalRecords cr)
     {
         this.recordId = cr.getRecordId();
-        this.driver = new DriverDTO(cr.getDriver());
+        this.driver = new DriverDetails(cr.getDriver());
         this.type = new CriminalRecordsDictionaryDTO(cr.getType());
     }
 
@@ -25,11 +25,11 @@ public class CriminalRecordsDTO
         this.recordId = recordId;
     }
 
-    public DriverDTO getDriver() {
+    public DriverDetails getDriver() {
         return driver;
     }
 
-    public void setDriver(DriverDTO driver) {
+    public void setDriver(DriverDetails driver) {
         this.driver = driver;
     }
 

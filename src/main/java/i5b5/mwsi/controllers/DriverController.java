@@ -4,10 +4,7 @@ import i5b5.mwsi.services.DriverService;
 import i5b5.mwsi.services.dto.BasicDriverInfo;
 import i5b5.mwsi.services.dto.DriverDetails;
 import i5b5.mwsi.services.impl.DriverServiceImpl;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -27,15 +24,12 @@ public class DriverController {
     }
 
     @RequestMapping(value = "/drivers",
-                    method = RequestMethod.GET
-    )
+                    method = RequestMethod.GET)
+    @CrossOrigin(origins = "http://localhost:8080")
     public List<BasicDriverInfo> getDrivers(){
         List<BasicDriverInfo> drivers;
 
         drivers = driverService.getDrivers();
-
-        for (BasicDriverInfo driverInfo : drivers)
-            System.out.println(driverInfo.getDriverId());
 
         return drivers;
     }

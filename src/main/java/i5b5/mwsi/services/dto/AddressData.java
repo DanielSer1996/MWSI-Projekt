@@ -2,7 +2,7 @@ package i5b5.mwsi.services.dto;
 
 import i5b5.mwsi.entities.Address;
 
-public class AddressDTO
+public class AddressData
 {
 
 
@@ -14,7 +14,7 @@ public class AddressDTO
     private String addressStreetNumber;
     private String addressApartmentNumber;
 
-    public AddressDTO(Address address)
+    public AddressData(Address address)
     {
         this.addressId = address.getAddressId();
         this.addressLocality = address.getAddressLocality();
