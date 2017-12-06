@@ -1,10 +1,10 @@
 package i5b5.mwsi.controllers;
 
+import i5b5.mwsi.controllers.factories.HttpHeaderFactory;
 import i5b5.mwsi.services.DriverService;
 import i5b5.mwsi.services.dto.BasicDriverInfo;
 import i5b5.mwsi.services.dto.DriverDetails;
 import i5b5.mwsi.services.impl.DriverServiceImpl;
-import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -21,24 +21,30 @@ import java.util.List;
 @RestController
 @RequestMapping
 public class DriverController {
-    private DriverService driverService = new DriverServiceImpl();
+    private DriverService driverService;
+    private HttpHeaderFactory headerFactory;
+
+    public DriverController() {
+        this.driverService = new DriverServiceImpl();
+        this.headerFactory = new HttpHeaderFactory();
+    }
 
     @RequestMapping(value = "/driver/{id}",
                     method = RequestMethod.GET
     )
-    public DriverDetails getDriverById(@PathVariable("id") long id){
-        return driverService.getDriverById(id);
+    public ResponseEntity<DriverDetails> getDriverById(@PathVariable("id") long id){
+        return new ResponseEntity<>(driverService.getDriverById(id),
+                                    headerFactory.getHttpHeader(),
+                                    HttpStatus.OK);
     }
 
     @RequestMapping(value = "/drivers",
                     method = RequestMethod.GET)
     public ResponseEntity<List<BasicDriverInfo>> getDrivers(){
         List<BasicDriverInfo> drivers;
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Access-Control-Allow-Origin","*");
         drivers = driverService.getDrivers();
 
-        return new ResponseEntity<List<BasicDriverInfo>>(drivers,headers, HttpStatus.OK);
+        return new ResponseEntity<>(drivers, headerFactory.getHttpHeader(), HttpStatus.OK);
     }
 
 }
