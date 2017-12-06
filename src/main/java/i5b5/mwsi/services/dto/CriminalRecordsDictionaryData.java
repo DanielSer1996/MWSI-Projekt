@@ -3,13 +3,13 @@ package i5b5.mwsi.services.dto;
 import i5b5.mwsi.entities.CriminalRecords;
 import i5b5.mwsi.entities.CriminalRecordsDictionary;
 
-public class CriminalRecordsDictionaryDTO
+public class CriminalRecordsDictionaryData
 {
     private long crDictionaryId;
     private String crDictionaryType;
     private int crDictionaryPoints;
 
-    public CriminalRecordsDictionaryDTO(CriminalRecordsDictionary crd)
+    public CriminalRecordsDictionaryData(CriminalRecordsDictionary crd)
     {
         this.crDictionaryId = crd.getCrDictionaryId();
         this.crDictionaryType = crd.getCrDictionaryType();

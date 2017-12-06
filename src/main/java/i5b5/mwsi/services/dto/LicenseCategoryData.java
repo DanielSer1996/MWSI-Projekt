@@ -6,21 +6,21 @@ import i5b5.mwsi.entities.LicenseCategory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class LicenseCategoryDTO
+public class LicenseCategoryData
 {
     private long categoryId;
     private String categoryType;
     private String description;
-    private List<DrivingLicenseDTO> licenses = new ArrayList<DrivingLicenseDTO>();
+    private List<DrivingLicenseData> licenses = new ArrayList<DrivingLicenseData>();
 
-    public LicenseCategoryDTO(LicenseCategory lc)
+    public LicenseCategoryData(LicenseCategory lc)
     {
         categoryId = lc.getCategoryId();
         categoryType = lc.getCategoryType();
         description = lc.getDescription();
         for(DrivingLicense dl : lc.getLicenses())
         {
-            licenses.add(new DrivingLicenseDTO(dl));
+            licenses.add(new DrivingLicenseData(dl));
         }
     }
 
@@ -48,11 +48,11 @@ public class LicenseCategoryDTO
         this.description = description;
     }
 
-    public List<DrivingLicenseDTO> getLicenses() {
+    public List<DrivingLicenseData> getLicenses() {
         return licenses;
     }
 
-    public void setLicenses(List<DrivingLicenseDTO> licenses) {
+    public void setLicenses(List<DrivingLicenseData> licenses) {
         this.licenses = licenses;
     }
 }

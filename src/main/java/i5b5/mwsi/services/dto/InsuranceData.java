@@ -4,14 +4,14 @@ import i5b5.mwsi.entities.Insurance;
 
 import java.util.Date;
 
-public class InsuranceDTO
+public class InsuranceData
 {
     private long insuranceId;
     private Date beginDate;
     private Date expireDate;
     private String type;
 
-    public InsuranceDTO(Insurance in)
+    public InsuranceData(Insurance in)
     {
         insuranceId = in.getInsuranceId();
         beginDate = in.getBeginDate();

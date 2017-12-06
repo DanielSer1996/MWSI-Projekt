@@ -7,21 +7,21 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-public class DrivingLicenseDTO
+public class DrivingLicenseData
 {
     private long licenseId;
     private Date issueDate;
     private Date expireDate;
-    private List<LicenseCategoryDTO> categories = new ArrayList<LicenseCategoryDTO>();
+    private List<LicenseCategoryData> categories = new ArrayList<LicenseCategoryData>();
 
-    public DrivingLicenseDTO(DrivingLicense dl)
+    public DrivingLicenseData(DrivingLicense dl)
     {
         licenseId = dl.getLicenseId();
         issueDate = dl.getIssueDate();
         expireDate = dl.getExpireDate();
         for(LicenseCategory lc : dl.getCategories())
         {
-            categories.add(new LicenseCategoryDTO(lc));
+            categories.add(new LicenseCategoryData(lc));
         }
     }
 
@@ -49,11 +49,11 @@ public class DrivingLicenseDTO
         this.expireDate = expireDate;
     }
 
-    public List<LicenseCategoryDTO> getCategories() {
+    public List<LicenseCategoryData> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<LicenseCategoryDTO> categories) {
+    public void setCategories(List<LicenseCategoryData> categories) {
         this.categories = categories;
     }
 }

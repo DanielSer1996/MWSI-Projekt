@@ -6,15 +6,15 @@ import i5b5.mwsi.entities.CarReview;
 import java.util.ArrayList;
 import java.util.List;
 
-public class CarDTO
+public class CarData
 {
     private String vin;
     private String carMake;
     private String carModel;
     private String carRegistrationNumber;
-    private List<CarReviewDTO> reviews = new ArrayList<CarReviewDTO>();
+    private List<CarReviewData> reviews = new ArrayList<>();
 
-    public CarDTO(Car car)
+    public CarData(Car car)
     {
         this.vin = car.getVin();
         this.carMake = car.getCarMake();
@@ -22,7 +22,7 @@ public class CarDTO
         this.carRegistrationNumber = car.getCarRegistrationNumber();
         for(CarReview review : car.getReviews())
         {
-            reviews.add(new CarReviewDTO(review));
+            reviews.add(new CarReviewData(review));
         }
     }
 
@@ -58,11 +58,11 @@ public class CarDTO
         this.carRegistrationNumber = carRegistrationNumber;
     }
 
-    public List<CarReviewDTO> getReviews() {
+    public List<CarReviewData> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<CarReviewDTO> reviews) {
+    public void setReviews(List<CarReviewData> reviews) {
         this.reviews = reviews;
     }
 }

@@ -1,25 +1,24 @@
 package i5b5.mwsi.services.dto;
 
-import i5b5.mwsi.entities.Car;
 import i5b5.mwsi.entities.CarReview;
 
 import java.util.Date;
 
-public class CarReviewDTO
+public class CarReviewData
 {
     private String reviewId;
     private Date reviewDate;
     private Date expireDate;
     private String comments;
-    private CarDTO reviewedCar;
+    private CarData reviewedCar;
 
-    public CarReviewDTO(CarReview carReview)
+    public CarReviewData(CarReview carReview)
     {
         this.reviewId = carReview.getReviewId();
         this.reviewDate = carReview.getReviewDate();
         this.expireDate = carReview.getExpireDate();
         this.comments = carReview.getComments();
-        this.reviewedCar = new CarDTO(carReview.getReviewedCar());
+        this.reviewedCar = new CarData(carReview.getReviewedCar());
     }
 
     public String getReviewId() {
@@ -54,11 +53,11 @@ public class CarReviewDTO
         this.comments = comments;
     }
 
-    public CarDTO getReviewedCarDTO() {
+    public CarData getReviewedCarDTO() {
         return reviewedCar;
     }
 
-    public void setReviewedCarDTO(CarDTO reviewedCar) {
+    public void setReviewedCarDTO(CarData reviewedCar) {
         this.reviewedCar = reviewedCar;
     }
 }

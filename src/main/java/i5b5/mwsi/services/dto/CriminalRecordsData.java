@@ -1,20 +1,18 @@
 package i5b5.mwsi.services.dto;
 
 import i5b5.mwsi.entities.CriminalRecords;
-import i5b5.mwsi.entities.CriminalRecordsDictionary;
-import i5b5.mwsi.entities.Driver;
 
-public class CriminalRecordsDTO
+public class CriminalRecordsData
 {
     private long recordId;
     private DriverDetails driver;
-    private CriminalRecordsDictionaryDTO type;
+    private CriminalRecordsDictionaryData type;
 
-    public CriminalRecordsDTO(CriminalRecords cr)
+    public CriminalRecordsData(CriminalRecords cr)
     {
         this.recordId = cr.getRecordId();
         this.driver = new DriverDetails(cr.getDriver());
-        this.type = new CriminalRecordsDictionaryDTO(cr.getType());
+        this.type = new CriminalRecordsDictionaryData(cr.getType());
     }
 
     public long getRecordId() {
@@ -33,11 +31,11 @@ public class CriminalRecordsDTO
         this.driver = driver;
     }
 
-    public CriminalRecordsDictionaryDTO getType() {
+    public CriminalRecordsDictionaryData getType() {
         return type;
     }
 
-    public void setType(CriminalRecordsDictionaryDTO type) {
+    public void setType(CriminalRecordsDictionaryData type) {
         this.type = type;
     }
 }
