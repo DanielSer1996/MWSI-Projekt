@@ -1,5 +1,6 @@
 target/
 .idea/
+123.txt
 # Log filegit
 *.log
 

@@ -5,12 +5,10 @@ import i5b5.mwsi.services.DriverService;
 import i5b5.mwsi.services.dto.BasicDriverInfo;
 import i5b5.mwsi.services.dto.DriverDetails;
 import i5b5.mwsi.services.impl.DriverServiceImpl;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -21,11 +19,11 @@ import java.util.List;
 @RestController
 @RequestMapping
 public class DriverController {
+    @Autowired
     private DriverService driverService;
     private HttpHeaderFactory headerFactory;
 
     public DriverController() {
-        this.driverService = new DriverServiceImpl();
         this.headerFactory = new HttpHeaderFactory();
     }
 
@@ -45,6 +43,14 @@ public class DriverController {
         drivers = driverService.getDrivers();
 
         return new ResponseEntity<>(drivers, headerFactory.getHttpHeader(), HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/drivers/search",
+                    method = RequestMethod.GET)
+    public ResponseEntity<List<BasicDriverInfo>> getSpecifiedDrivers(@RequestParam("criteria") String criteria){
+        List<BasicDriverInfo> specifiedDrivers = driverService.getSpecifiedDrivers(criteria);
+
+        return new ResponseEntity<>(specifiedDrivers,headerFactory.getHttpHeader(),HttpStatus.OK);
     }
 
 }

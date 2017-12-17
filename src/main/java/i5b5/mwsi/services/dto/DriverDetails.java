@@ -1,34 +1,69 @@
 package i5b5.mwsi.services.dto;
 
+import com.fasterxml.jackson.annotation.JsonCreator;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import i5b5.mwsi.entities.Car;
-import i5b5.mwsi.entities.Driver;
 
 import java.sql.Date;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
-public class DriverDetails {
+@JsonIgnoreProperties("addressData")
+public class DriverDetails{
     private Long driverId;
     private String pesel;
     private String name;
     private String surname;
     private Date dateOfBirth;
     private Long drivingLicenseNumber;
+    private Set<String> ownedCarsVins = new HashSet<>();
+    @JsonUnwrapped(prefix = "address.")
     private AddressData address;
-    private Set<String> ownedCarsVins = new HashSet<String>();
 
-    public DriverDetails(Driver driver) {
-        this.driverId = driver.getDriverId();
-        this.pesel = driver.getPesel();
-        this.name = driver.getName();
-        this.surname = driver.getSurname();
-        this.dateOfBirth = driver.getBirthDate();
-        this.drivingLicenseNumber = driver.getDrivingLicense().getLicenseId();
-        this.address = new AddressData(driver.getAddress());
-        for(Car c : driver.getCars()){
+    @JsonCreator
+    public DriverDetails(@JsonProperty("driverId")Long driverId,
+                         @JsonProperty("pesel")String pesel,
+                         @JsonProperty("name")String name,
+                         @JsonProperty("surname")String surname,
+                         @JsonProperty("dateOfBirth")Date dateOfBirth,
+                         @JsonProperty("drivingLicenseNumber")Long drivingLicenseNumber,
+                         @JsonProperty("ownedCarVins")List<Car> cars,
+                         @JsonProperty AddressData addressData) {
+        this.driverId = driverId;
+        this.pesel = pesel;
+        this.name = name;
+        this.surname = surname;
+        this.dateOfBirth = dateOfBirth;
+        this.drivingLicenseNumber = drivingLicenseNumber;
+        this.address = addressData;
+        for(Car c : cars) {
             this.ownedCarsVins.add(c.getVin());
         }
+
     }
+
+//    public void addDataFromDriver(Long driverId,
+//                                  String pesel,
+//                                  String name,
+//                                  String surname,
+//                                  Date dateOfBirth,
+//                                  Long drivingLicenseNumber,
+//                                  List<Car> cars,
+//                                  AddressData addressData){
+//        this.driverId = driverId;
+//        this.pesel = pesel;
+//        this.name = name;
+//        this.surname = surname;
+//        this.dateOfBirth = dateOfBirth;
+//        this.drivingLicenseNumber = drivingLicenseNumber;
+//        this.address = addressData;
+//        for(Car c : cars){
+//            this.ownedCarsVins.add(c.getVin());
+//        }
+//    }
 
     public Long getDriverId() {
         return driverId;
@@ -78,11 +113,11 @@ public class DriverDetails {
         this.drivingLicenseNumber = drivingLicenseNumber;
     }
 
-    public AddressData getAddressDTO() {
+    public AddressData getAddressData() {
         return address;
     }
 
-    public void setAddressDTO(AddressData address) {
+    public void setAddressData(AddressData address) {
         this.address = address;
     }
 

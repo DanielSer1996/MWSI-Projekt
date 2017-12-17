@@ -5,13 +5,13 @@ import i5b5.mwsi.entities.CriminalRecords;
 public class CriminalRecordsData
 {
     private long recordId;
-    private DriverDetails driver;
+    private BasicDriverInfo driver;
     private CriminalRecordsDictionaryData type;
 
     public CriminalRecordsData(CriminalRecords cr)
     {
         this.recordId = cr.getRecordId();
-        this.driver = new DriverDetails(cr.getDriver());
+        this.driver = new BasicDriverInfo(cr.getDriver());
         this.type = new CriminalRecordsDictionaryData(cr.getType());
     }
 
@@ -23,11 +23,11 @@ public class CriminalRecordsData
         this.recordId = recordId;
     }
 
-    public DriverDetails getDriver() {
+    public BasicDriverInfo getDriver() {
         return driver;
     }
 
-    public void setDriver(DriverDetails driver) {
+    public void setDriver(BasicDriverInfo driver) {
         this.driver = driver;
     }
 

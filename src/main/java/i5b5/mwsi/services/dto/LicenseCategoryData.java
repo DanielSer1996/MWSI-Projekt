@@ -11,17 +11,12 @@ public class LicenseCategoryData
     private long categoryId;
     private String categoryType;
     private String description;
-    private List<DrivingLicenseData> licenses = new ArrayList<DrivingLicenseData>();
 
     public LicenseCategoryData(LicenseCategory lc)
     {
         categoryId = lc.getCategoryId();
         categoryType = lc.getCategoryType();
         description = lc.getDescription();
-        for(DrivingLicense dl : lc.getLicenses())
-        {
-            licenses.add(new DrivingLicenseData(dl));
-        }
     }
 
     public long getCategoryId() {
@@ -46,13 +41,5 @@ public class LicenseCategoryData
 
     public void setDescription(String description) {
         this.description = description;
-    }
-
-    public List<DrivingLicenseData> getLicenses() {
-        return licenses;
-    }
-
-    public void setLicenses(List<DrivingLicenseData> licenses) {
-        this.licenses = licenses;
     }
 }

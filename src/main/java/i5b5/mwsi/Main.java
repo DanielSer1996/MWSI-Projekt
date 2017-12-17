@@ -10,7 +10,7 @@ import org.springframework.context.annotation.PropertySource;
  * Created by daniel on 05.11.17.
  */
 @SpringBootApplication
-@ComponentScan("i5b5.mwsi.controllers")
+@ComponentScan()
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class);

@@ -1,17 +1,22 @@
 package i5b5.mwsi.services.dto;
 
+import com.fasterxml.jackson.annotation.JsonProperty;
 import i5b5.mwsi.entities.Address;
 
-public class AddressData
-{
-
-
+public class AddressData{
+    @JsonProperty
     private long addressId;
+    @JsonProperty
     private String addressLocality;
+    @JsonProperty
     private String addressStreet;
+    @JsonProperty
     private String addressZipcode;
+    @JsonProperty
     private String addressVoivodeship;
+    @JsonProperty
     private String addressStreetNumber;
+    @JsonProperty
     private String addressApartmentNumber;
 
     public AddressData(Address address)
