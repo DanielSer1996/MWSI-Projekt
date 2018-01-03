@@ -4,7 +4,6 @@ import i5b5.mwsi.controllers.factories.HttpHeaderFactory;
 import i5b5.mwsi.services.DriverService;
 import i5b5.mwsi.services.dto.BasicDriverInfo;
 import i5b5.mwsi.services.dto.DriverDetails;
-import i5b5.mwsi.services.impl.DriverServiceImpl;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;

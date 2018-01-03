@@ -12,7 +12,8 @@ public class CarData
     private String carMake;
     private String carModel;
     private String carRegistrationNumber;
-    private List<CarReviewData> reviews = new ArrayList<>();
+    private List<String> reviews = new ArrayList<>();
+    private long insuranceNumber;
 
     public CarData(Car car)
     {
@@ -22,8 +23,9 @@ public class CarData
         this.carRegistrationNumber = car.getCarRegistrationNumber();
         for(CarReview review : car.getReviews())
         {
-            reviews.add(new CarReviewData(review));
+            reviews.add(review.getReviewId());
         }
+        this.insuranceNumber = car.getInsurance().getInsuranceId();
     }
 
     public String getVin() {
@@ -58,11 +60,19 @@ public class CarData
         this.carRegistrationNumber = carRegistrationNumber;
     }
 
-    public List<CarReviewData> getReviews() {
+    public List<String> getReviews() {
         return reviews;
     }
 
-    public void setReviews(List<CarReviewData> reviews) {
+    public void setReviews(List<String> reviews) {
         this.reviews = reviews;
+    }
+
+    public long getInsuranceNumber() {
+        return insuranceNumber;
+    }
+
+    public void setInsuranceNumber(long insuranceNumber) {
+        this.insuranceNumber = insuranceNumber;
     }
 }

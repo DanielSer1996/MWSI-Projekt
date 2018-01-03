@@ -5,6 +5,7 @@ import org.hibernate.boot.MetadataSources;
 import org.hibernate.boot.registry.StandardServiceRegistry;
 import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.PropertySource;
 
 import java.util.Properties;
@@ -14,16 +15,15 @@ import java.util.Properties;
  */
 
 public class HibernateUtil {
-    private SessionFactory sessionFactory;
+    private static SessionFactory sessionFactory;
 
     public HibernateUtil() {
-        this.sessionFactory = buildSessionFactory();
     }
 
-    private SessionFactory buildSessionFactory() {
+    private static SessionFactory buildSessionFactory() {
         Properties dbConnectionProperties = new Properties();
         try {
-            dbConnectionProperties.load(this.getClass().getClassLoader().getResourceAsStream("hibernate.properties"));
+            dbConnectionProperties.load(HibernateUtil.class.getClassLoader().getResourceAsStream("hibernate.properties"));
             return new Configuration().mergeProperties(dbConnectionProperties).configure("hibernate.cfg.xml").buildSessionFactory();
         } catch(Exception e) {
             e.printStackTrace();
@@ -31,7 +31,11 @@ public class HibernateUtil {
         }
     }
 
-    public SessionFactory getSessionFactory() {
-        return sessionFactory;
+    public static SessionFactory getSessionFactory() {
+        if(sessionFactory != null) {
+            return sessionFactory;
+        }else{
+            return buildSessionFactory();
+        }
     }
 }

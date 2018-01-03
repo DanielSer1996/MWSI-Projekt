@@ -1,9 +1,5 @@
 package i5b5.mwsi.services.dto;
 
-import com.fasterxml.jackson.annotation.JsonCreator;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
-import com.fasterxml.jackson.annotation.JsonUnwrapped;
 import i5b5.mwsi.entities.Car;
 
 import java.sql.Date;
@@ -11,7 +7,6 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-@JsonIgnoreProperties("addressData")
 public class DriverDetails{
     private Long driverId;
     private String pesel;
@@ -20,18 +15,16 @@ public class DriverDetails{
     private Date dateOfBirth;
     private Long drivingLicenseNumber;
     private Set<String> ownedCarsVins = new HashSet<>();
-    @JsonUnwrapped(prefix = "address.")
     private AddressData address;
 
-    @JsonCreator
-    public DriverDetails(@JsonProperty("driverId")Long driverId,
-                         @JsonProperty("pesel")String pesel,
-                         @JsonProperty("name")String name,
-                         @JsonProperty("surname")String surname,
-                         @JsonProperty("dateOfBirth")Date dateOfBirth,
-                         @JsonProperty("drivingLicenseNumber")Long drivingLicenseNumber,
-                         @JsonProperty("ownedCarVins")List<Car> cars,
-                         @JsonProperty AddressData addressData) {
+    public DriverDetails(Long driverId,
+                         String pesel,
+                         String name,
+                         String surname,
+                         Date dateOfBirth,
+                         Long drivingLicenseNumber,
+                         List<Car> cars,
+                         AddressData addressData) {
         this.driverId = driverId;
         this.pesel = pesel;
         this.name = name;

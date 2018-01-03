@@ -8,6 +8,7 @@ import i5b5.mwsi.services.dto.DriverDetails;
 import i5b5.mwsi.utility.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -18,7 +19,8 @@ import java.util.List;
 
 @Service
 public class DriverServiceImpl implements DriverService{
-    private final SessionFactory sessionFactory = new HibernateUtil().getSessionFactory();
+
+    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
     @Override
     public List<BasicDriverInfo> getDrivers() {

@@ -7,12 +7,14 @@ public class BasicDriverInfo {
     private String pesel;
     private String name;
     private String surname;
+    private String driverLicenseNumber;
 
     public BasicDriverInfo(Driver driver){
         this.driverId = driver.getDriverId();
         this.pesel = driver.getPesel();
         this.name = driver.getName();
         this.surname = driver.getSurname();
+        this.driverLicenseNumber = Long.toString(driver.getDrivingLicense().getLicenseId());
     }
 
     public String getSurname() {
@@ -45,5 +47,13 @@ public class BasicDriverInfo {
 
     public void setDriverId(Long driverId) {
         this.driverId = driverId;
+    }
+
+    public String getDriverLicenseNumber() {
+        return driverLicenseNumber;
+    }
+
+    public void setDriverLicenseNumber(String driverLicenseNumber) {
+        this.driverLicenseNumber = driverLicenseNumber;
     }
 }
