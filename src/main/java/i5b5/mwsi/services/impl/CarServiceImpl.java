@@ -21,17 +21,20 @@ public class CarServiceImpl implements CarService {
 
     @Override
     public List<CarData> listCars() {
-        List<Car> drivers;
+        List<Car> cars;
         Session session = sessionFactory.openSession();
+        session.beginTransaction();
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Car> criteriaQuery = builder.createQuery(Car.class);
-        Root<Car> driverRoot = criteriaQuery.from(Car.class);
-        criteriaQuery.select(driverRoot);
+        Root<Car> carRoot = criteriaQuery.from(Car.class);
+        criteriaQuery.select(carRoot);
 
-        drivers = session.createQuery(criteriaQuery).getResultList();
+        cars = session.createQuery(criteriaQuery).getResultList();
 
+        session.getTransaction().commit();
+        session.close();
 
-        return createCarDataListFromCarList(drivers);
+        return createCarDataListFromCarList(cars);
     }
 
     @Override

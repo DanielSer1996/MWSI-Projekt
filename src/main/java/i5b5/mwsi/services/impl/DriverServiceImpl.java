@@ -8,7 +8,6 @@ import i5b5.mwsi.services.dto.DriverDetails;
 import i5b5.mwsi.utility.HibernateUtil;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import javax.persistence.criteria.CriteriaBuilder;
@@ -26,6 +25,8 @@ public class DriverServiceImpl implements DriverService{
     public List<BasicDriverInfo> getDrivers() {
         List<Driver> drivers;
         Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
         CriteriaBuilder builder = session.getCriteriaBuilder();
         CriteriaQuery<Driver> criteriaQuery = builder.createQuery(Driver.class);
         Root<Driver> driverRoot = criteriaQuery.from(Driver.class);
@@ -33,6 +34,8 @@ public class DriverServiceImpl implements DriverService{
 
         drivers = session.createQuery(criteriaQuery).getResultList();
 
+        session.getTransaction().commit();
+        session.close();
 
         return createBasicDriverInfoListFromDriverList(drivers);
     }
@@ -42,8 +45,11 @@ public class DriverServiceImpl implements DriverService{
     public DriverDetails getDriverById(long id) {
         Session session = sessionFactory.openSession();
 
+        session.beginTransaction();
+
         Driver driver = session.get(Driver.class,id);
 
+        session.getTransaction().commit();
         session.close();
 
         return new DriverDetails(driver.getDriverId(),

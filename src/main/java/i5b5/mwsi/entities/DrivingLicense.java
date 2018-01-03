@@ -16,6 +16,8 @@ public class DrivingLicense implements Serializable{
     private Date issueDate;
     @Column(name = "EXPIRE_DATE")
     private Date expireDate;
+    @Column(name = "IS_SUSPENDED")
+    private Boolean isSuspended;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "DRIVING_LICENSE_CATEGORY_REL",
@@ -26,10 +28,11 @@ public class DrivingLicense implements Serializable{
     public DrivingLicense() {
     }
 
-    public DrivingLicense(long licenseId, Date issueDate, Date expireDate) {
+    public DrivingLicense(long licenseId, Date issueDate, Date expireDate, boolean isSuspended) {
         this.licenseId = licenseId;
         this.issueDate = issueDate;
         this.expireDate = expireDate;
+        this.isSuspended = isSuspended;
     }
 
     public long getLicenseId() {
@@ -62,5 +65,13 @@ public class DrivingLicense implements Serializable{
 
     public void setCategories(List<LicenseCategory> categories) {
         this.categories = categories;
+    }
+
+    public Boolean getSuspended() {
+        return isSuspended;
+    }
+
+    public void setSuspended(Boolean suspended) {
+        isSuspended = suspended;
     }
 }
