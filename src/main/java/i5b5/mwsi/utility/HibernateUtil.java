@@ -23,7 +23,7 @@ public class HibernateUtil {
     private static SessionFactory buildSessionFactory() {
         Properties dbConnectionProperties = new Properties();
         try {
-            dbConnectionProperties.load(HibernateUtil.class.getClassLoader().getResourceAsStream("hibernate.properties"));
+            dbConnectionProperties.load(HibernateUtil.class.getClassLoader().getResourceAsStream("hibernate2.properties"));
             return new Configuration().mergeProperties(dbConnectionProperties).configure("hibernate.cfg.xml").buildSessionFactory();
         } catch(Exception e) {
             e.printStackTrace();

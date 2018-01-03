@@ -15,7 +15,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class CarServiceImpl implements CarService{
+public class CarServiceImpl implements CarService {
 
     private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
 
@@ -39,8 +39,10 @@ public class CarServiceImpl implements CarService{
 
         criteria = criteria.toLowerCase();
         List<CarData> specifiedCars = new ArrayList<>();
-        for(CarData carData : listCars()){
-            if((carData.getVin().toLowerCase().contains(criteria) || carData.getCarRegistrationNumber().toLowerCase().contains(criteria))){
+        for (CarData carData : listCars()) {
+            if ((carData.getVin().toLowerCase().contains(criteria) ||
+                    carData.getCarRegistrationNumber().toLowerCase().contains(criteria)) ||
+                    Long.toString(carData.getInsuranceNumber()).contains(criteria)) {
                 specifiedCars.add(carData);
             }
         }
@@ -49,9 +51,9 @@ public class CarServiceImpl implements CarService{
     }
 
 
-    private List<CarData> createCarDataListFromCarList(List<Car> cars){
+    private List<CarData> createCarDataListFromCarList(List<Car> cars) {
         List<CarData> basicDriverInfoList = new ArrayList<>();
-        for(Car car : cars){
+        for (Car car : cars) {
             basicDriverInfoList.add(new CarData(car));
         }
 
