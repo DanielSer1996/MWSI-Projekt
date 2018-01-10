@@ -32,7 +32,11 @@ public class DriverController {
                     method = RequestMethod.GET
     )
     public ResponseEntity<DriverDetails> getDriverById(@PathVariable("id") long id){
-        return new ResponseEntity<>(driverService.getDriverById(id),
+        DriverDetails driverDetails = driverService.getDriverById(id);
+        driverDetails.setCategories(driverService.getLicenseCategories(driverDetails.getDrivingLicenseNumber()));
+
+
+        return new ResponseEntity<>(driverDetails,
                                     headerFactory.getHttpHeader(),
                                     HttpStatus.OK);
     }
@@ -54,11 +58,11 @@ public class DriverController {
         return new ResponseEntity<>(specifiedDrivers,headerFactory.getHttpHeader(),HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/license/{id}/categories")
-    public ResponseEntity<List<LicenseCategoryData>> getCategoriesByLicense(@PathVariable("id") String id){
-        List<LicenseCategoryData> categories = driverService.getLicenseCategories(id);
-
-        return new ResponseEntity<>(categories,headerFactory.getHttpHeader(),HttpStatus.OK);
-    }
+//    @RequestMapping(value = "/license/{id}/categories")
+//    public ResponseEntity<List<LicenseCategoryData>> getCategoriesByLicense(@PathVariable("id") String id){
+//        List<LicenseCategoryData> categories = driverService.getLicenseCategories(id);
+//
+//        return new ResponseEntity<>(categories,headerFactory.getHttpHeader(),HttpStatus.OK);
+//    }
 
 }

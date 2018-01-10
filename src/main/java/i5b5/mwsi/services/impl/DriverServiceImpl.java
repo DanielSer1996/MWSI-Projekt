@@ -70,7 +70,10 @@ public class DriverServiceImpl implements DriverService{
         criteria = criteria.toLowerCase();
         List<BasicDriverInfo> specifiedDrivers = new ArrayList<>();
         for(BasicDriverInfo driverInfo : getDrivers()){
-            if((driverInfo.getName().toLowerCase().contains(criteria) || driverInfo.getSurname().toLowerCase().contains(criteria) || driverInfo.getPesel().toLowerCase().contains(criteria))){
+            if((driverInfo.getName().toLowerCase().contains(criteria)
+                    || driverInfo.getSurname().toLowerCase().contains(criteria)
+                    || driverInfo.getPesel().toLowerCase().contains(criteria))
+                    || driverInfo.getDriverLicenseNumber().toLowerCase().contains(criteria)){
                 specifiedDrivers.add(driverInfo);
             }
         }

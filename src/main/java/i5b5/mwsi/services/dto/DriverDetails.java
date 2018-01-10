@@ -1,6 +1,8 @@
 package i5b5.mwsi.services.dto;
 
 import java.sql.Date;
+import java.util.ArrayList;
+import java.util.List;
 
 public class DriverDetails{
     private Long driverId;
@@ -10,6 +12,7 @@ public class DriverDetails{
     private Date dateOfBirth;
     private String drivingLicenseNumber;
     private AddressData address;
+    private List<LicenseCategoryData> categories;
 
     public DriverDetails(Long driverId,
                          String pesel,
@@ -81,5 +84,13 @@ public class DriverDetails{
 
     public void setAddressData(AddressData address) {
         this.address = address;
+    }
+
+    public List<LicenseCategoryData> getCategories() {
+        return categories;
+    }
+
+    public void setCategories(List<LicenseCategoryData> categories) {
+        this.categories = categories;
     }
 }

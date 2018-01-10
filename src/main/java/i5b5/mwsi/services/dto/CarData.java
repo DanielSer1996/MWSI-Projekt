@@ -2,6 +2,7 @@ package i5b5.mwsi.services.dto;
 
 import i5b5.mwsi.entities.Car;
 import i5b5.mwsi.entities.CarReview;
+import i5b5.mwsi.entities.Driver;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -14,9 +15,9 @@ public class CarData
     private String carRegistrationNumber;
     private List<String> reviews = new ArrayList<>();
     private long insuranceNumber;
+    private List<BasicDriverInfo> owners= new ArrayList<>();
 
-    public CarData(Car car)
-    {
+    public CarData(Car car) {
         this.vin = car.getVin();
         this.carMake = car.getCarMake();
         this.carModel = car.getCarModel();
@@ -26,6 +27,9 @@ public class CarData
             reviews.add(review.getReviewId());
         }
         this.insuranceNumber = car.getInsurance().getInsuranceId();
+        for(Driver driver : car.getOwners()){
+            owners.add(new BasicDriverInfo(driver));
+        }
     }
 
     public String getVin() {
@@ -74,5 +78,13 @@ public class CarData
 
     public void setInsuranceNumber(long insuranceNumber) {
         this.insuranceNumber = insuranceNumber;
+    }
+
+    public List<BasicDriverInfo> getOwners() {
+        return owners;
+    }
+
+    public void setOwners(List<BasicDriverInfo> owners) {
+        this.owners = owners;
     }
 }
