@@ -11,13 +11,15 @@ import java.util.List;
 public class DrivingLicense implements Serializable{
     @Id
     @Column(name = "LICENSE_ID")
-    private long licenseId;
+    private Long licenseId;
     @Column(name = "ISSUE_DATE")
     private Date issueDate;
     @Column(name = "EXPIRE_DATE")
     private Date expireDate;
     @Column(name = "IS_SUSPENDED")
     private Boolean isSuspended;
+    @Column(name = "LICENSE_NO")
+    private String licenseNumber;
 
     @ManyToMany(fetch = FetchType.EAGER)
     @JoinTable(name = "DRIVING_LICENSE_CATEGORY_REL",
@@ -28,18 +30,19 @@ public class DrivingLicense implements Serializable{
     public DrivingLicense() {
     }
 
-    public DrivingLicense(long licenseId, Date issueDate, Date expireDate, boolean isSuspended) {
+    public DrivingLicense(Long licenseId, Date issueDate, Date expireDate, String licenseNumber , boolean isSuspended) {
         this.licenseId = licenseId;
         this.issueDate = issueDate;
         this.expireDate = expireDate;
+        this.licenseNumber = licenseNumber;
         this.isSuspended = isSuspended;
     }
 
-    public long getLicenseId() {
+    public Long getLicenseId() {
         return licenseId;
     }
 
-    public void setLicenseId(long licenseId) {
+    public void setLicenseId(Long licenseId) {
         this.licenseId = licenseId;
     }
 
@@ -73,5 +76,13 @@ public class DrivingLicense implements Serializable{
 
     public void setSuspended(Boolean suspended) {
         isSuspended = suspended;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
     }
 }

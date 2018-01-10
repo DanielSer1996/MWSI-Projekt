@@ -1,18 +1,22 @@
 package i5b5.mwsi.services.impl;
 
 import i5b5.mwsi.entities.Driver;
+import i5b5.mwsi.entities.DrivingLicense;
+import i5b5.mwsi.entities.LicenseCategory;
 import i5b5.mwsi.services.DriverService;
-import i5b5.mwsi.services.dto.AddressData;
-import i5b5.mwsi.services.dto.BasicDriverInfo;
-import i5b5.mwsi.services.dto.DriverDetails;
+import i5b5.mwsi.services.dto.*;
 import i5b5.mwsi.utility.HibernateUtil;
+import org.hibernate.Criteria;
+import org.hibernate.FetchMode;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
+import org.hibernate.criterion.Projections;
+import org.hibernate.criterion.Restrictions;
+import org.hibernate.type.EntityType;
 import org.springframework.stereotype.Service;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import javax.persistence.criteria.CriteriaQuery;
-import javax.persistence.criteria.Root;
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.*;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,8 +61,7 @@ public class DriverServiceImpl implements DriverService{
                 driver.getName(),
                 driver.getSurname(),
                 driver.getBirthDate(),
-                driver.getDrivingLicense().getLicenseId(),
-                driver.getCars(),
+                driver.getDrivingLicense().getLicenseNumber(),
                 new AddressData(driver.getAddress()));
     }
 
@@ -75,6 +78,24 @@ public class DriverServiceImpl implements DriverService{
         return specifiedDrivers;
     }
 
+    @Override
+    public List<LicenseCategoryData> getLicenseCategories(String licenseId) {
+        List<LicenseCategory> categories;
+        Session session = sessionFactory.openSession();
+        session.beginTransaction();
+
+
+        CriteriaBuilder cb = session.getCriteriaBuilder();
+        CriteriaQuery<LicenseCategory> query = cb.createQuery(LicenseCategory.class);
+        Root<DrivingLicense> dl = query.from(DrivingLicense.class);
+        Join<DrivingLicense, LicenseCategory> categoriesRes = dl.join("categories");
+        query.select(categoriesRes).where(cb.equal(dl.get("licenseNumber"), licenseId));
+
+        categories = session.createQuery(query).getResultList();
+
+        return createLicenseCategoryData(categories);
+    }
+
     private List<BasicDriverInfo> createBasicDriverInfoListFromDriverList(List<Driver> drivers){
         List<BasicDriverInfo> basicDriverInfoList = new ArrayList<>();
         for(Driver driver : drivers){
@@ -82,5 +103,14 @@ public class DriverServiceImpl implements DriverService{
         }
 
         return basicDriverInfoList;
+    }
+
+    private List<LicenseCategoryData> createLicenseCategoryData(List<LicenseCategory> categories){
+        List<LicenseCategoryData> result = new ArrayList<>();
+        for(LicenseCategory licenseCategory : categories){
+            result.add(new LicenseCategoryData(licenseCategory));
+        }
+
+        return result;
     }
 }

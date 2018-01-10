@@ -9,9 +9,10 @@ import java.util.List;
 
 public class DrivingLicenseData
 {
-    private long licenseId;
+    private Long licenseId;
     private Date issueDate;
     private Date expireDate;
+    private String licenseNumber;
     private List<LicenseCategoryData> categories = new ArrayList<LicenseCategoryData>();
 
     public DrivingLicenseData(DrivingLicense dl)
@@ -25,11 +26,11 @@ public class DrivingLicenseData
         }
     }
 
-    public long getLicenseId() {
+    public Long getLicenseId() {
         return licenseId;
     }
 
-    public void setLicenseId(long licenseId) {
+    public void setLicenseId(Long licenseId) {
         this.licenseId = licenseId;
     }
 
@@ -55,5 +56,13 @@ public class DrivingLicenseData
 
     public void setCategories(List<LicenseCategoryData> categories) {
         this.categories = categories;
+    }
+
+    public String getLicenseNumber() {
+        return licenseNumber;
+    }
+
+    public void setLicenseNumber(String licenseNumber) {
+        this.licenseNumber = licenseNumber;
     }
 }

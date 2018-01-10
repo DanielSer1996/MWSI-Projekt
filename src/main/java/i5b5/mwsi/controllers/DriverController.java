@@ -1,9 +1,11 @@
 package i5b5.mwsi.controllers;
 
 import i5b5.mwsi.controllers.factories.HttpHeaderFactory;
+import i5b5.mwsi.entities.LicenseCategory;
 import i5b5.mwsi.services.DriverService;
 import i5b5.mwsi.services.dto.BasicDriverInfo;
 import i5b5.mwsi.services.dto.DriverDetails;
+import i5b5.mwsi.services.dto.LicenseCategoryData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -50,6 +52,13 @@ public class DriverController {
         List<BasicDriverInfo> specifiedDrivers = driverService.getSpecifiedDrivers(criteria);
 
         return new ResponseEntity<>(specifiedDrivers,headerFactory.getHttpHeader(),HttpStatus.OK);
+    }
+
+    @RequestMapping(value = "/license/{id}/categories")
+    public ResponseEntity<List<LicenseCategoryData>> getCategoriesByLicense(@PathVariable("id") String id){
+        List<LicenseCategoryData> categories = driverService.getLicenseCategories(id);
+
+        return new ResponseEntity<>(categories,headerFactory.getHttpHeader(),HttpStatus.OK);
     }
 
 }

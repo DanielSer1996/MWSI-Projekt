@@ -1,19 +1,12 @@
 package i5b5.mwsi.entities;
 
-import com.fasterxml.jackson.annotation.JsonFormat;
-import org.hibernate.annotations.LazyCollection;
-import org.hibernate.annotations.LazyCollectionOption;
-
 import javax.persistence.*;
 import java.io.Serializable;
 import java.sql.Date;
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * Created by daniel on 05.11.17.
  */
-@JsonFormat
 @Entity
 @Table(name = "DRIVER")
 public class Driver implements Serializable {
@@ -37,9 +30,6 @@ public class Driver implements Serializable {
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 
-    @ManyToMany(mappedBy = "owners")
-    @LazyCollection(LazyCollectionOption.FALSE)
-    private List<Car> cars = new ArrayList<>();
 
     public Driver(long driverId, String pesel, String name, String surname, Date birthDate) {
         this.driverId = driverId;
@@ -107,14 +97,4 @@ public class Driver implements Serializable {
     public void setAddress(Address address) {
         this.address = address;
     }
-
-
-    public List<Car> getCars() {
-        return cars;
-    }
-
-    public void setCars(List<Car> cars) {
-        this.cars = cars;
-    }
-
 }

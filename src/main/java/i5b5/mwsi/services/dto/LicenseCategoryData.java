@@ -1,10 +1,6 @@
 package i5b5.mwsi.services.dto;
 
-import i5b5.mwsi.entities.DrivingLicense;
 import i5b5.mwsi.entities.LicenseCategory;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class LicenseCategoryData
 {

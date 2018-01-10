@@ -14,7 +14,7 @@ public class BasicDriverInfo {
         this.pesel = driver.getPesel();
         this.name = driver.getName();
         this.surname = driver.getSurname();
-        this.driverLicenseNumber = Long.toString(driver.getDrivingLicense().getLicenseId());
+        this.driverLicenseNumber = driver.getDrivingLicense().getLicenseNumber();
     }
 
     public String getSurname() {

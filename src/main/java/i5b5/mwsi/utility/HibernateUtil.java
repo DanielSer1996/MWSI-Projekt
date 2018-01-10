@@ -1,12 +1,7 @@
 package i5b5.mwsi.utility;
 
 import org.hibernate.SessionFactory;
-import org.hibernate.boot.MetadataSources;
-import org.hibernate.boot.registry.StandardServiceRegistry;
-import org.hibernate.boot.registry.StandardServiceRegistryBuilder;
 import org.hibernate.cfg.Configuration;
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.PropertySource;
 
 import java.util.Properties;
 
@@ -31,11 +26,12 @@ public class HibernateUtil {
         }
     }
 
-    public static SessionFactory getSessionFactory() {
+    public synchronized static SessionFactory getSessionFactory() {
         if(sessionFactory != null) {
             return sessionFactory;
         }else{
-            return buildSessionFactory();
+            sessionFactory = buildSessionFactory();
+            return sessionFactory;
         }
     }
 }

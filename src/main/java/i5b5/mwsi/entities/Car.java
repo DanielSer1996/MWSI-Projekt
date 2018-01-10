@@ -36,14 +36,14 @@ public class Car implements Serializable {
     @JoinColumn(name = "INSURANCE_ID")
     private Insurance insurance;
 
+    public Car() {
+    }
+
     public Car(String carVin, String carMake, String carModel, String carRegistrationNumber) {
         this.vin = carVin;
         this.carMake = carMake;
         this.carModel = carModel;
         this.carRegistrationNumber = carRegistrationNumber;
-    }
-
-    public Car() {
     }
 
 
