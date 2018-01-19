@@ -5,12 +5,14 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.context.embedded.LocalServerPort;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.PropertySource;
+import org.springframework.scheduling.annotation.EnableAsync;
 
 /**
  * Created by daniel on 05.11.17.
  */
 @SpringBootApplication
 @ComponentScan("i5b5.mwsi")
+@PropertySource("classpath:hibernate.properties")
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class);

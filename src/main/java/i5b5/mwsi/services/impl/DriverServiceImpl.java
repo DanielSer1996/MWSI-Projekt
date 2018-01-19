@@ -1,61 +1,57 @@
 package i5b5.mwsi.services.impl;
 
 import i5b5.mwsi.entities.Driver;
-import i5b5.mwsi.entities.DrivingLicense;
-import i5b5.mwsi.entities.LicenseCategory;
 import i5b5.mwsi.services.DriverService;
-import i5b5.mwsi.services.dto.*;
-import i5b5.mwsi.utility.HibernateUtil;
-import org.hibernate.Criteria;
-import org.hibernate.FetchMode;
-import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.hibernate.criterion.Projections;
-import org.hibernate.criterion.Restrictions;
-import org.hibernate.type.EntityType;
-import org.springframework.stereotype.Service;
+import i5b5.mwsi.services.dto.AddressData;
+import i5b5.mwsi.services.dto.BasicDriverInfo;
+import i5b5.mwsi.services.dto.DriverDetails;
+import org.apache.log4j.Logger;
+import org.springframework.scheduling.annotation.Async;
+import org.springframework.scheduling.annotation.AsyncResult;
+import org.springframework.scheduling.annotation.EnableAsync;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
-import javax.persistence.TypedQuery;
-import javax.persistence.criteria.*;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
-@Service
-public class DriverServiceImpl implements DriverService{
+@Transactional
+@Repository
+public class DriverServiceImpl implements DriverService {
 
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    private final Logger logger = Logger.getLogger(DriverServiceImpl.class);
+
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public List<BasicDriverInfo> getDrivers() {
-        List<Driver> drivers;
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+        logger.info("Started getting drivers");
 
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Driver> criteriaQuery = builder.createQuery(Driver.class);
-        Root<Driver> driverRoot = criteriaQuery.from(Driver.class);
-        criteriaQuery.select(driverRoot);
+        String hql = "FROM Driver";
 
-        drivers = session.createQuery(criteriaQuery).getResultList();
+        List<Driver> resultList = entityManager.createQuery(hql, Driver.class).getResultList();
 
-        session.getTransaction().commit();
-        session.close();
 
-        return createBasicDriverInfoListFromDriverList(drivers);
+        logger.info("Drivers got from database");
+
+        return createBasicDriverInfoListFromDriverList(resultList);
     }
 
 
     @Override
     public DriverDetails getDriverById(long id) {
-        Session session = sessionFactory.openSession();
 
-        session.beginTransaction();
-
-        Driver driver = session.get(Driver.class,id);
-
-        session.getTransaction().commit();
-        session.close();
-
+        System.out.println("Test");
+        Driver driver = entityManager.find(Driver.class, id);
+        System.out.println("Koniec testu");
         return new DriverDetails(driver.getDriverId(),
                 driver.getPesel(),
                 driver.getName(),
@@ -66,14 +62,15 @@ public class DriverServiceImpl implements DriverService{
     }
 
     @Override
-    public List<BasicDriverInfo> getSpecifiedDrivers(String criteria) {
+    public List<BasicDriverInfo> getSpecifiedDrivers(String criteria) throws ExecutionException, InterruptedException {
         criteria = criteria.toLowerCase();
+        List<BasicDriverInfo> drivers = getDrivers();
         List<BasicDriverInfo> specifiedDrivers = new ArrayList<>();
-        for(BasicDriverInfo driverInfo : getDrivers()){
-            if((driverInfo.getName().toLowerCase().contains(criteria)
+        for (BasicDriverInfo driverInfo : drivers) {
+            if ((driverInfo.getName().toLowerCase().contains(criteria)
                     || driverInfo.getSurname().toLowerCase().contains(criteria)
                     || driverInfo.getPesel().toLowerCase().contains(criteria))
-                    || driverInfo.getDriverLicenseNumber().toLowerCase().contains(criteria)){
+                    || driverInfo.getDriverLicenseNumber().toLowerCase().contains(criteria)) {
                 specifiedDrivers.add(driverInfo);
             }
         }
@@ -82,38 +79,38 @@ public class DriverServiceImpl implements DriverService{
     }
 
     @Override
-    public List<LicenseCategoryData> getLicenseCategories(String licenseId) {
-        List<LicenseCategory> categories;
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
+    public List<String> getLicenseCategories(String licenseId) {
+        Callable<List<String>> task = new Callable<List<String>>() {
+            @Override
+            public List<String> call() throws Exception {
+                String hql = new StringBuilder().
+                        append("SELECT ct.categoryType \n").
+                        append("FROM DrivingLicense dl\n").
+                        append("JOIN dl.categories ct \n").
+                        append("WHERE dl.licenseNumber = ?1").toString();
 
+                Query query = entityManager.createQuery(hql, String.class);
+                query.setParameter(1,licenseId);
+                return query.getResultList();
+            }
+        };
 
-        CriteriaBuilder cb = session.getCriteriaBuilder();
-        CriteriaQuery<LicenseCategory> query = cb.createQuery(LicenseCategory.class);
-        Root<DrivingLicense> dl = query.from(DrivingLicense.class);
-        Join<DrivingLicense, LicenseCategory> categoriesRes = dl.join("categories");
-        query.select(categoriesRes).where(cb.equal(dl.get("licenseNumber"), licenseId));
+        List<String> strings = new ArrayList<>();
+        try {
+            strings = task.call();
+        } catch (Exception e) {
+            logger.error("Error getting driving license category", e);
+        }
 
-        categories = session.createQuery(query).getResultList();
-
-        return createLicenseCategoryData(categories);
+        return strings;
     }
 
-    private List<BasicDriverInfo> createBasicDriverInfoListFromDriverList(List<Driver> drivers){
+    private List<BasicDriverInfo> createBasicDriverInfoListFromDriverList(List<Driver> drivers) {
         List<BasicDriverInfo> basicDriverInfoList = new ArrayList<>();
-        for(Driver driver : drivers){
+        for (Driver driver : drivers) {
             basicDriverInfoList.add(new BasicDriverInfo(driver));
         }
 
         return basicDriverInfoList;
-    }
-
-    private List<LicenseCategoryData> createLicenseCategoryData(List<LicenseCategory> categories){
-        List<LicenseCategoryData> result = new ArrayList<>();
-        for(LicenseCategory licenseCategory : categories){
-            result.add(new LicenseCategoryData(licenseCategory));
-        }
-
-        return result;
     }
 }

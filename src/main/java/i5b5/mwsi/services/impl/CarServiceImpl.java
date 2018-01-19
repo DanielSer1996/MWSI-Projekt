@@ -3,46 +3,39 @@ package i5b5.mwsi.services.impl;
 import i5b5.mwsi.entities.Car;
 import i5b5.mwsi.services.CarService;
 import i5b5.mwsi.services.dto.CarData;
-import i5b5.mwsi.utility.HibernateUtil;
 import org.hibernate.Session;
-import org.hibernate.SessionFactory;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.persistence.criteria.CriteriaBuilder;
 import javax.persistence.criteria.CriteriaQuery;
 import javax.persistence.criteria.Root;
 import java.util.ArrayList;
 import java.util.List;
 
-@Service
+@Transactional
+@Repository
 public class CarServiceImpl implements CarService {
 
-    private SessionFactory sessionFactory = HibernateUtil.getSessionFactory();
+    @PersistenceContext
+    private EntityManager entityManager;
 
     @Override
     public List<CarData> listCars() {
-        List<Car> cars;
-        Session session = sessionFactory.openSession();
-        session.beginTransaction();
-        CriteriaBuilder builder = session.getCriteriaBuilder();
-        CriteriaQuery<Car> criteriaQuery = builder.createQuery(Car.class);
-        Root<Car> carRoot = criteriaQuery.from(Car.class);
-        criteriaQuery.select(carRoot);
-
-        cars = session.createQuery(criteriaQuery).getResultList();
-
-        session.getTransaction().commit();
-        session.close();
-
-        return createCarDataListFromCarList(cars);
+        String hql = "FROM Car";
+        System.out.println("Test");
+        return createCarDataListFromCarList(entityManager.createQuery(hql,Car.class).getResultList()) ;
     }
 
     @Override
     public List<CarData> getSpecifiedCars(String criteria) {
 
         criteria = criteria.toLowerCase();
+        List<CarData> carList = listCars();
         List<CarData> specifiedCars = new ArrayList<>();
-        for (CarData carData : listCars()) {
+        for (CarData carData : carList) {
             if ((carData.getVin().toLowerCase().contains(criteria) ||
                     carData.getCarRegistrationNumber().toLowerCase().contains(criteria)) ||
                     Long.toString(carData.getInsuranceNumber()).contains(criteria)) {

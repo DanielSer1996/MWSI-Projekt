@@ -1,32 +1,45 @@
 package i5b5.mwsi.controllers;
 
 import i5b5.mwsi.controllers.factories.HttpHeaderFactory;
-import i5b5.mwsi.entities.LicenseCategory;
 import i5b5.mwsi.services.DriverService;
 import i5b5.mwsi.services.dto.BasicDriverInfo;
 import i5b5.mwsi.services.dto.DriverDetails;
-import i5b5.mwsi.services.dto.LicenseCategoryData;
+import org.apache.log4j.Logger;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.concurrent.Callable;
+import java.util.concurrent.ExecutionException;
+import java.util.concurrent.Future;
 
 
 /**
  * Created by daniel on 15.11.17.
  */
 @RestController
-@RequestMapping
 public class DriverController {
-    @Autowired
-    private DriverService driverService;
-    private HttpHeaderFactory headerFactory;
+    private final DriverService driverService;
+    private final HttpHeaderFactory headerFactory;
 
-    public DriverController() {
-        this.headerFactory = new HttpHeaderFactory();
+    private final Logger logger = Logger.getLogger(DriverController.class);
+
+    @Autowired
+    public DriverController(DriverService driverService, HttpHeaderFactory headerFactory) {
+        this.driverService = driverService;
+        this.headerFactory = headerFactory;
     }
+
+    @RequestMapping(value = "/drivers",
+            method = RequestMethod.GET)
+    public ResponseEntity<List<BasicDriverInfo>> getDrivers() throws Exception {
+        List<BasicDriverInfo> drivers = driverService.getDrivers();
+
+        return new ResponseEntity<>(drivers, headerFactory.getHttpHeader(), HttpStatus.OK);
+    }
+
 
     @RequestMapping(value = "/driver/{id}",
                     method = RequestMethod.GET
@@ -41,18 +54,10 @@ public class DriverController {
                                     HttpStatus.OK);
     }
 
-    @RequestMapping(value = "/drivers",
-                    method = RequestMethod.GET)
-    public ResponseEntity<List<BasicDriverInfo>> getDrivers(){
-        List<BasicDriverInfo> drivers;
-        drivers = driverService.getDrivers();
-
-        return new ResponseEntity<>(drivers, headerFactory.getHttpHeader(), HttpStatus.OK);
-    }
 
     @RequestMapping(value = "/drivers/search",
                     method = RequestMethod.GET)
-    public ResponseEntity<List<BasicDriverInfo>> getSpecifiedDrivers(@RequestParam("criteria") String criteria){
+    public ResponseEntity<List<BasicDriverInfo>> getSpecifiedDrivers(@RequestParam("criteria") String criteria) throws ExecutionException, InterruptedException {
         List<BasicDriverInfo> specifiedDrivers = driverService.getSpecifiedDrivers(criteria);
 
         return new ResponseEntity<>(specifiedDrivers,headerFactory.getHttpHeader(),HttpStatus.OK);

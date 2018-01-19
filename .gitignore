@@ -20,5 +20,5 @@ target/
 
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
-hibernate.properties
-hibernate2.properties
+src/test/hibernate.properties
+src/main/resources/hibernate.properties

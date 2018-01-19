@@ -12,7 +12,7 @@ public class DriverDetails{
     private Date dateOfBirth;
     private String drivingLicenseNumber;
     private AddressData address;
-    private List<LicenseCategoryData> categories;
+    private List<String> categories;
 
     public DriverDetails(Long driverId,
                          String pesel,
@@ -86,11 +86,11 @@ public class DriverDetails{
         this.address = address;
     }
 
-    public List<LicenseCategoryData> getCategories() {
+    public List<String> getCategories() {
         return categories;
     }
 
-    public void setCategories(List<LicenseCategoryData> categories) {
+    public void setCategories(List<String> categories) {
         this.categories = categories;
     }
 }
