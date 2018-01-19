@@ -66,10 +66,11 @@ public class DriverController {
         return new ResponseEntity<>(specifiedDrivers, headerFactory.getHttpHeader(), HttpStatus.OK);
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/drivers/ticket",
-            method = RequestMethod.POST,
-            consumes = "application/json")
+            method = RequestMethod.POST)
     public ResponseEntity<TicketResponse> insertTicket(@RequestBody TicketRequest request){
+        logger.info("Post request received");
         TicketResponse response = driverService.insertTicket(request);
 
         return new ResponseEntity<>(response,headerFactory.getHttpHeader(),HttpStatus.OK);
