@@ -12,7 +12,6 @@ import org.springframework.scheduling.annotation.EnableAsync;
  */
 @SpringBootApplication
 @ComponentScan("i5b5.mwsi")
-@PropertySource("classpath:hibernate.properties")
 public class Main {
     public static void main(String[] args) {
         SpringApplication.run(Main.class);
