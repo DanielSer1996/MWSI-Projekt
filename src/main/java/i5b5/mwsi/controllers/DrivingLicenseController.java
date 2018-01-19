@@ -1,6 +1,6 @@
 package i5b5.mwsi.controllers;
 
-import i5b5.mwsi.controllers.dto.SuspendDrivingLicenseRequest;
+import i5b5.mwsi.controllers.requests.SuspendDrivingLicenseRequest;
 import i5b5.mwsi.controllers.factories.HttpHeaderFactory;
 import i5b5.mwsi.services.DrivingLicenseService;
 import org.springframework.beans.factory.annotation.Autowired;

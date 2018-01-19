@@ -1,26 +1,25 @@
 package i5b5.mwsi.services.impl;
 
+import i5b5.mwsi.controllers.requests.TicketRequest;
+import i5b5.mwsi.controllers.responses.TicketResponse;
+import i5b5.mwsi.entities.CriminalRecords;
 import i5b5.mwsi.entities.Driver;
 import i5b5.mwsi.services.DriverService;
 import i5b5.mwsi.services.dto.AddressData;
 import i5b5.mwsi.services.dto.BasicDriverInfo;
 import i5b5.mwsi.services.dto.DriverDetails;
 import org.apache.log4j.Logger;
-import org.springframework.scheduling.annotation.Async;
-import org.springframework.scheduling.annotation.AsyncResult;
-import org.springframework.scheduling.annotation.EnableAsync;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.persistence.Query;
+import java.sql.Date;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.Callable;
-import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.ExecutionException;
-import java.util.concurrent.Future;
 
 @Transactional
 @Repository
@@ -30,6 +29,25 @@ public class DriverServiceImpl implements DriverService {
 
     @PersistenceContext
     private EntityManager entityManager;
+
+    @Override
+    public TicketResponse insertTicket(TicketRequest request) {
+        CriminalRecords criminalRecords = new CriminalRecords();
+        criminalRecords.setDriver(entityManager.find(Driver.class,request.getDriverId()));
+        criminalRecords.setCashAmount(request.getCashAmount());
+        criminalRecords.setPenaltyPoints(request.getPenaltyPoints());
+        criminalRecords.setIssueDate(request.getIssueDate());
+        criminalRecords.setDescription(request.getDescription());
+
+        entityManager.persist(criminalRecords);
+
+        TicketResponse response = new TicketResponse();
+
+        String hql = "select sum(cr.penaltyPoints) from CriminalRecords cr join cr.driver d where d.driverId = ?1";
+        response.setDriverPenaltyPoints(entityManager.createQuery(hql,Long.class).setParameter(1,request.getDriverId()).getSingleResult());
+
+        return response;
+    }
 
     @Override
     public List<BasicDriverInfo> getDrivers() {
@@ -48,10 +66,9 @@ public class DriverServiceImpl implements DriverService {
 
     @Override
     public DriverDetails getDriverById(long id) {
-
-        System.out.println("Test");
+        logger.info("Looking for driver by id");
         Driver driver = entityManager.find(Driver.class, id);
-        System.out.println("Koniec testu");
+        logger.info("Looking for driver ended");
         return new DriverDetails(driver.getDriverId(),
                 driver.getPesel(),
                 driver.getName(),

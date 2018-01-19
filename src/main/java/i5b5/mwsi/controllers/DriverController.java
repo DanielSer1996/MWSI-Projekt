@@ -1,6 +1,8 @@
 package i5b5.mwsi.controllers;
 
 import i5b5.mwsi.controllers.factories.HttpHeaderFactory;
+import i5b5.mwsi.controllers.requests.TicketRequest;
+import i5b5.mwsi.controllers.responses.TicketResponse;
 import i5b5.mwsi.services.DriverService;
 import i5b5.mwsi.services.dto.BasicDriverInfo;
 import i5b5.mwsi.services.dto.DriverDetails;
@@ -26,6 +28,7 @@ public class DriverController {
 
     private final Logger logger = Logger.getLogger(DriverController.class);
 
+
     @Autowired
     public DriverController(DriverService driverService, HttpHeaderFactory headerFactory) {
         this.driverService = driverService;
@@ -34,7 +37,7 @@ public class DriverController {
 
     @RequestMapping(value = "/drivers",
             method = RequestMethod.GET)
-    public ResponseEntity<List<BasicDriverInfo>> getDrivers() throws Exception {
+    public ResponseEntity<List<BasicDriverInfo>> getDrivers() {
         List<BasicDriverInfo> drivers = driverService.getDrivers();
 
         return new ResponseEntity<>(drivers, headerFactory.getHttpHeader(), HttpStatus.OK);
@@ -42,32 +45,33 @@ public class DriverController {
 
 
     @RequestMapping(value = "/driver/{id}",
-                    method = RequestMethod.GET
+            method = RequestMethod.GET
     )
-    public ResponseEntity<DriverDetails> getDriverById(@PathVariable("id") long id){
+    public ResponseEntity<DriverDetails> getDriverById(@PathVariable("id") long id) {
         DriverDetails driverDetails = driverService.getDriverById(id);
         driverDetails.setCategories(driverService.getLicenseCategories(driverDetails.getDrivingLicenseNumber()));
 
 
         return new ResponseEntity<>(driverDetails,
-                                    headerFactory.getHttpHeader(),
-                                    HttpStatus.OK);
+                headerFactory.getHttpHeader(),
+                HttpStatus.OK);
     }
 
 
     @RequestMapping(value = "/drivers/search",
-                    method = RequestMethod.GET)
+            method = RequestMethod.GET)
     public ResponseEntity<List<BasicDriverInfo>> getSpecifiedDrivers(@RequestParam("criteria") String criteria) throws ExecutionException, InterruptedException {
         List<BasicDriverInfo> specifiedDrivers = driverService.getSpecifiedDrivers(criteria);
 
-        return new ResponseEntity<>(specifiedDrivers,headerFactory.getHttpHeader(),HttpStatus.OK);
+        return new ResponseEntity<>(specifiedDrivers, headerFactory.getHttpHeader(), HttpStatus.OK);
     }
 
-//    @RequestMapping(value = "/license/{id}/categories")
-//    public ResponseEntity<List<LicenseCategoryData>> getCategoriesByLicense(@PathVariable("id") String id){
-//        List<LicenseCategoryData> categories = driverService.getLicenseCategories(id);
-//
-//        return new ResponseEntity<>(categories,headerFactory.getHttpHeader(),HttpStatus.OK);
-//    }
+    @RequestMapping(value = "/drivers/ticket",
+            method = RequestMethod.POST,
+            consumes = "application/json")
+    public ResponseEntity<TicketResponse> insertTicket(@RequestBody TicketRequest request){
+        TicketResponse response = driverService.insertTicket(request);
 
+        return new ResponseEntity<>(response,headerFactory.getHttpHeader(),HttpStatus.OK);
+    }
 }

@@ -1,5 +1,7 @@
 package i5b5.mwsi.services;
 
+import i5b5.mwsi.controllers.requests.TicketRequest;
+import i5b5.mwsi.controllers.responses.TicketResponse;
 import i5b5.mwsi.services.dto.BasicDriverInfo;
 import i5b5.mwsi.services.dto.DriverDetails;
 import i5b5.mwsi.services.dto.LicenseCategoryData;
@@ -12,6 +14,7 @@ import java.util.concurrent.Future;
 
 
 public interface DriverService {
+    TicketResponse insertTicket(TicketRequest request);
     List<BasicDriverInfo> getDrivers();
     DriverDetails getDriverById(long id);
     List<BasicDriverInfo> getSpecifiedDrivers(String criteria) throws ExecutionException, InterruptedException;

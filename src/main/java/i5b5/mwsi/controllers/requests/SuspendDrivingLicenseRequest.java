@@ -1,4 +1,4 @@
-package i5b5.mwsi.controllers.dto;
+package i5b5.mwsi.controllers.requests;
 
 import java.io.Serializable;
 
