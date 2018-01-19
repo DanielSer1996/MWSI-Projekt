@@ -13,6 +13,7 @@ public class DriverDetails{
     private String drivingLicenseNumber;
     private AddressData address;
     private List<String> categories;
+    private Long penaltyPoints;
 
     public DriverDetails(Long driverId,
                          String pesel,
@@ -92,5 +93,13 @@ public class DriverDetails{
 
     public void setCategories(List<String> categories) {
         this.categories = categories;
+    }
+
+    public Long getPenaltyPoints() {
+        return penaltyPoints;
+    }
+
+    public void setPenaltyPoints(Long penaltyPoints) {
+        this.penaltyPoints = penaltyPoints;
     }
 }

@@ -43,8 +43,7 @@ public class DriverServiceImpl implements DriverService {
 
         TicketResponse response = new TicketResponse();
 
-        String hql = "select sum(cr.penaltyPoints) from CriminalRecords cr join cr.driver d where d.driverId = ?1";
-        response.setDriverPenaltyPoints(entityManager.createQuery(hql,Long.class).setParameter(1,request.getDriverId()).getSingleResult());
+        response.setDriverPenaltyPoints(getPenaltyPointsForDriver(request.getDriverId()));
 
         return response;
     }
@@ -63,23 +62,31 @@ public class DriverServiceImpl implements DriverService {
         return createBasicDriverInfoListFromDriverList(resultList);
     }
 
+    private Long getPenaltyPointsForDriver(Long driverId){
+        String hql = "select sum(cr.penaltyPoints) from CriminalRecords cr join cr.driver d where d.driverId = ?1";
+        return entityManager.createQuery(hql,Long.class).setParameter(1,driverId).getSingleResult();
+    }
+
 
     @Override
     public DriverDetails getDriverById(long id) {
         logger.info("Looking for driver by id");
         Driver driver = entityManager.find(Driver.class, id);
         logger.info("Looking for driver ended");
-        return new DriverDetails(driver.getDriverId(),
+        DriverDetails details = new DriverDetails(driver.getDriverId(),
                 driver.getPesel(),
                 driver.getName(),
                 driver.getSurname(),
                 driver.getBirthDate(),
                 driver.getDrivingLicense().getLicenseNumber(),
                 new AddressData(driver.getAddress()));
+        details.setPenaltyPoints(getPenaltyPointsForDriver(id));
+
+        return details;
     }
 
     @Override
-    public List<BasicDriverInfo> getSpecifiedDrivers(String criteria) throws ExecutionException, InterruptedException {
+    public List<BasicDriverInfo> getSpecifiedDrivers(String criteria) {
         criteria = criteria.toLowerCase();
         List<BasicDriverInfo> drivers = getDrivers();
         List<BasicDriverInfo> specifiedDrivers = new ArrayList<>();
