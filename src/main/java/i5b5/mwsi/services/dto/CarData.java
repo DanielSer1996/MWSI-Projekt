@@ -15,21 +15,17 @@ public class CarData
     private String carRegistrationNumber;
     private List<String> reviews = new ArrayList<>();
     private long insuranceNumber;
-    private List<BasicDriverInfo> owners= new ArrayList<>();
+    private List<String> owners= new ArrayList<>();
+
+    public CarData() {
+    }
 
     public CarData(Car car) {
         this.vin = car.getVin();
         this.carMake = car.getCarMake();
         this.carModel = car.getCarModel();
         this.carRegistrationNumber = car.getCarRegistrationNumber();
-        for(CarReview review : car.getReviews())
-        {
-            reviews.add(review.getReviewId());
-        }
         this.insuranceNumber = car.getInsurance().getInsuranceId();
-        for(Driver driver : car.getOwners()){
-            owners.add(new BasicDriverInfo(driver));
-        }
     }
 
     public String getVin() {
@@ -80,11 +76,11 @@ public class CarData
         this.insuranceNumber = insuranceNumber;
     }
 
-    public List<BasicDriverInfo> getOwners() {
+    public List<String> getOwners() {
         return owners;
     }
 
-    public void setOwners(List<BasicDriverInfo> owners) {
+    public void setOwners(List<String> owners) {
         this.owners = owners;
     }
 }

@@ -21,6 +21,7 @@ public class DrivingLicenseController {
         this.httpHeaderFactory = new HttpHeaderFactory();
     }
 
+    @CrossOrigin
     @RequestMapping(value = "/suspend/license",
             method = RequestMethod.PUT,
             consumes = "application/json")

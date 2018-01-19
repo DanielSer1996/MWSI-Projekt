@@ -33,7 +33,7 @@ public class DriverServiceImpl implements DriverService {
     @Override
     public TicketResponse insertTicket(TicketRequest request) {
         CriminalRecords criminalRecords = new CriminalRecords();
-        criminalRecords.setDriver(entityManager.find(Driver.class,request.getDriverId()));
+        criminalRecords.setDriver(entityManager.find(Driver.class, request.getDriverId()));
         criminalRecords.setCashAmount(request.getCashAmount());
         criminalRecords.setPenaltyPoints(request.getPenaltyPoints());
         criminalRecords.setIssueDate(request.getIssueDate());
@@ -52,19 +52,35 @@ public class DriverServiceImpl implements DriverService {
     public List<BasicDriverInfo> getDrivers() {
         logger.info("Started getting drivers");
 
-        String hql = "FROM Driver";
+        String hql = "SELECT dr.driverId AS driverId," +
+                "dr.pesel AS pesel," +
+                "dr.name AS name," +
+                "dr.surname AS surname," +
+                "dl.licenseNumber AS driverLicenseNumber\n" +
+                "FROM Driver dr\n" +
+                "JOIN dr.drivingLicense dl";
 
-        List<Driver> resultList = entityManager.createQuery(hql, Driver.class).getResultList();
+        List<Object[]> resultList = entityManager.createQuery(hql).getResultList();
 
+        List<BasicDriverInfo> result = new ArrayList<>();
+        for (Object[] arr : resultList) {
+            BasicDriverInfo basicDriverInfo = new BasicDriverInfo();
+            basicDriverInfo.setDriverId((long) arr[0]);
+            basicDriverInfo.setPesel((String) arr[1]);
+            basicDriverInfo.setName((String) arr[2]);
+            basicDriverInfo.setSurname((String) arr[3]);
+            basicDriverInfo.setDriverLicenseNumber((String) arr[4]);
+            result.add(basicDriverInfo);
+        }
 
         logger.info("Drivers got from database");
 
-        return createBasicDriverInfoListFromDriverList(resultList);
+        return result;
     }
 
-    private Long getPenaltyPointsForDriver(Long driverId){
+    private Long getPenaltyPointsForDriver(Long driverId) {
         String hql = "select sum(cr.penaltyPoints) from CriminalRecords cr join cr.driver d where d.driverId = ?1";
-        return entityManager.createQuery(hql,Long.class).setParameter(1,driverId).getSingleResult();
+        return entityManager.createQuery(hql, Long.class).setParameter(1, driverId).getSingleResult();
     }
 
 
@@ -81,7 +97,7 @@ public class DriverServiceImpl implements DriverService {
                 driver.getDrivingLicense().getLicenseNumber(),
                 new AddressData(driver.getAddress()));
         details.setPenaltyPoints(getPenaltyPointsForDriver(id));
-
+        details.setCategories(getLicenseCategories(details.getDrivingLicenseNumber()));
         return details;
     }
 
@@ -102,31 +118,17 @@ public class DriverServiceImpl implements DriverService {
         return specifiedDrivers;
     }
 
+
     @Override
     public List<String> getLicenseCategories(String licenseId) {
-        Callable<List<String>> task = new Callable<List<String>>() {
-            @Override
-            public List<String> call() throws Exception {
-                String hql = new StringBuilder().
-                        append("SELECT ct.categoryType \n").
-                        append("FROM DrivingLicense dl\n").
-                        append("JOIN dl.categories ct \n").
-                        append("WHERE dl.licenseNumber = ?1").toString();
+        String hql = new StringBuilder().
+                append("SELECT ct.categoryType \n").
+                append("FROM DrivingLicense dl\n").
+                append("JOIN dl.categories ct \n").
+                append("WHERE dl.licenseNumber = ?1").toString();
 
-                Query query = entityManager.createQuery(hql, String.class);
-                query.setParameter(1,licenseId);
-                return query.getResultList();
-            }
-        };
-
-        List<String> strings = new ArrayList<>();
-        try {
-            strings = task.call();
-        } catch (Exception e) {
-            logger.error("Error getting driving license category", e);
-        }
-
-        return strings;
+        Query query = entityManager.createQuery(hql, String.class).setParameter(1,licenseId);
+        return query.getResultList();
     }
 
     private List<BasicDriverInfo> createBasicDriverInfoListFromDriverList(List<Driver> drivers) {

@@ -22,11 +22,11 @@ public class Driver implements Serializable {
     @Column(name = "DRIVER_BIRTH_DATE")
     private Date birthDate;
 
-    @OneToOne
+    @OneToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "LICENSE_ID")
     private DrivingLicense drivingLicense;
 
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "ADDRESS_ID")
     private Address address;
 

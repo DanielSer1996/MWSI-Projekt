@@ -19,18 +19,6 @@ public class DrivingLicenseServiceImpl implements DrivingLicenseService {
     @Async
     @Override
     public void suspendDrivingLicense(long id) {
-//        Session session = sessionFactory.openSession();
-
-//        session.beginTransaction();
-
-//        DrivingLicense drivingLicense = session.get(DrivingLicense.class,id);
-//        drivingLicense.setSuspended(true);
-//
-//        session.update(drivingLicense);
-//
-//        session.getTransaction().commit();
-//        session.close();
-
         DrivingLicense drivingLicense = entityManager.find(DrivingLicense.class, id);
         drivingLicense.setSuspended(true);
         entityManager.merge(drivingLicense);

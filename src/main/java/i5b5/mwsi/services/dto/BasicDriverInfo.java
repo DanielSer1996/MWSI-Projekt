@@ -9,6 +9,9 @@ public class BasicDriverInfo {
     private String surname;
     private String driverLicenseNumber;
 
+    public BasicDriverInfo() {
+    }
+
     public BasicDriverInfo(Driver driver){
         this.driverId = driver.getDriverId();
         this.pesel = driver.getPesel();
