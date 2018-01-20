@@ -44,6 +44,7 @@ public class DriverController {
     }
 
 
+
     @RequestMapping(value = "/driver/{id}",
             method = RequestMethod.GET
     )
@@ -58,6 +59,7 @@ public class DriverController {
     }
 
 
+    @CrossOrigin
     @RequestMapping(value = "/drivers/search",
             method = RequestMethod.GET)
     public ResponseEntity<List<BasicDriverInfo>> getSpecifiedDrivers(@RequestParam("criteria") String criteria) throws ExecutionException, InterruptedException {
